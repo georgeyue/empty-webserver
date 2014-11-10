@@ -1,4 +1,4 @@
-package com.ericsmith;
+package com.swift;
 
 public class Server {
 
