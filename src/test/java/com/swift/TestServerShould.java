@@ -15,7 +15,7 @@ import org.junit.Test;
 import com.swift.Server;
 
 
-public class ServerShould {
+public class TestServerShould {
 
 	int testPort;
 	Server myServer;
