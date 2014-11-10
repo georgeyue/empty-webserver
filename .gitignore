@@ -3,3 +3,6 @@
 target
 jars
 .DS_Store
+.classpath
+.project
+.settings
