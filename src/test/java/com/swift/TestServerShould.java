@@ -64,7 +64,7 @@ public class TestServerShould {
         String inputStr = "";
 
         PrintWriter pw = new PrintWriter(testClient.getOutputStream());
-        pw.println("GET / HTTP/1.1");
+        pw.println("GET /foobar HTTP/1.1");
         pw.flush();
 
         BufferedReader input = new BufferedReader(new InputStreamReader(testClient.getInputStream()));
