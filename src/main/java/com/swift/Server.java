@@ -9,6 +9,7 @@ public class Server {
 	private ServerSocket serverSocket;
     private Socket socket;
     private int portNumber;
+    private boolean stopped = false;
 
     public Server(int portNumber) throws IOException {
         this.portNumber = portNumber;
@@ -19,6 +20,7 @@ public class Server {
     }
 
 	public void stop() throws IOException {
+        stopped = true;
         if (!serverSocket.isClosed())
             serverSocket.close();
     }
@@ -32,12 +34,13 @@ public class Server {
     }
 
     public void run() throws IOException {
-        if (serverSocket.isClosed())
-            return;
 
-        socket = serverSocket.accept();
-        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-        out.println("HTTP/1.1 404 Not Found");
-        out.close();
+        while(!stopped && !serverSocket.isClosed()) {
+            socket = serverSocket.accept();
+            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+            out.println("HTTP/1.1 404 Not Found");
+            out.close();
+        }
     }
+
 }
