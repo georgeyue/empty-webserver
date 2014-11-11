@@ -54,7 +54,6 @@ public class Server {
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
             out.println("HTTP/1.1 404 Not Found");
             out.close();
-            serverSocket.close();
         }
     }
 
