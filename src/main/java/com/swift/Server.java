@@ -10,6 +10,7 @@ public class Server {
     private Socket socket;
     private int portNumber;
     private boolean stopped = false;
+    private String directory = "";
 
     public Server(int portNumber) throws IOException {
         this.portNumber = portNumber;
@@ -51,10 +52,18 @@ public class Server {
 
         while(!stopped && !serverSocket.isClosed()) {
             socket = serverSocket.accept();
-            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-            out.println("HTTP/1.1 404 Not Found");
-            out.close();
+            Response  response = new Response(socket);
+
+            RequestHandler handler = new RequestHandler(response);
+            handler.process();
         }
     }
 
+    public void setDirectory(String dir) {
+        directory = dir;
+    }
+
+    public String getDirectory() {
+        return directory;
+    }
 }
