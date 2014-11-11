@@ -6,7 +6,7 @@ import java.net.Socket;
 
 public class Server {
 
-	private ServerSocket serverSocket;
+	private httpServerSocket serverSocket;
     private Socket socket;
     private int portNumber;
     private boolean stopped = false;
@@ -14,7 +14,7 @@ public class Server {
 
     public Server(int portNumber) throws IOException {
         this.portNumber = portNumber;
-        serverSocket = new ServerSocket(portNumber);
+        serverSocket = new httpServerSocket(portNumber);
     }
 
     public static void main(String[] args) {
@@ -40,7 +40,7 @@ public class Server {
             serverSocket.close();
     }
 
-    public ServerSocket getSocket() {
+    public httpServerSocket getSocket() {
         return serverSocket;
     }
 
