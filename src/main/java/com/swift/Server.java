@@ -16,6 +16,20 @@ public class Server {
     }
 
     public static void main(String[] args) {
+        Server server = null;
+        try {
+            server = new Server(Integer.parseInt(args[0]));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        try {
+            server.run();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
 	public void stop() throws IOException {
