@@ -18,13 +18,21 @@ public class TestServerShould {
 	Server myServer;
 
     @Before
-	public void setUp() {
+	public void setUp() throws IOException {
         myServer = new Server(testPort);
-        new Thread(myServer).start();
+        new Thread() {
+            public void run() {
+                try {
+                    myServer.run();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }.start();
     }
 
 	@After
-	public void tearDown() {
+	public void tearDown() throws IOException {
         if (myServer != null)
             myServer.stop();
 	}
@@ -35,25 +43,20 @@ public class TestServerShould {
     }
 
     @Test
-    public void serverStops() {
+    public void serverStops() throws IOException {
         myServer.stop();
         assertTrue(myServer.isClosed());
     }
 
 	@Test
-	public void listenOnPort5000() throws UnknownHostException {
-		try {
+	public void listenOnPort5000() throws IOException {
+        Socket testClient = new Socket(InetAddress.getLocalHost(), testPort);
 
-            Socket testClient = new Socket(InetAddress.getLocalHost(), testPort);
+        SocketAddress clientAddress = testClient.getRemoteSocketAddress();
+        int myPort = ((InetSocketAddress) clientAddress).getPort();
 
-            SocketAddress clientAddress = testClient.getRemoteSocketAddress();
-            int myPort = ((InetSocketAddress) clientAddress).getPort();
-
-            assertEquals(testPort, myPort);
-            assertEquals(testPort, myServer.getSocket().getLocalPort());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        assertEquals(testPort, myPort);
+        assertEquals(testPort, myServer.getSocket().getLocalPort());
     }
 
     @Test
