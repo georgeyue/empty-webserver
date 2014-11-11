@@ -74,4 +74,12 @@ public class TestServerShould {
 
         assertEquals("HTTP/1.1 404 Not Found", inputStr);
     }
+
+
+    @Test
+    public void shouldSetDirectory() {
+        String dir = "/a/b/c/d/e";
+        myServer.setDirectory(dir);
+        assertEquals(myServer.getDirectory(), dir);
+    }
 }
