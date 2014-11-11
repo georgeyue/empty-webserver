@@ -2,11 +2,8 @@ package com.swift;
 
 import static org.junit.Assert.*;
 
-import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.net.SocketAddress;
-import java.net.UnknownHostException;
+import java.io.*;
+import java.net.*;
 
 import org.junit.After;
 import org.junit.Before;
@@ -17,52 +14,61 @@ import com.swift.Server;
 
 public class TestServerShould {
 
-	int testPort;
+	int testPort = 5000;
 	Server myServer;
-	
-	@Before
+
+    @Before
 	public void setUp() {
-		testPort = 5000;
-		try {
-			myServer = new Server(testPort);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
+        myServer = new Server(testPort);
+        new Thread(myServer).start();
+    }
+
 	@After
 	public void tearDown() {
-		myServer.close();
-	}
-	
-	@Test
-	public void listenOnPort5000() {
-		try {
-			Socket testClient = new Socket("localhost",testPort);
-			SocketAddress clientAddress = testClient.getRemoteSocketAddress();
-			int myPort = ((InetSocketAddress) clientAddress).getPort();
-			testClient.close();
-			assertEquals(5000, myPort);
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        if (myServer != null)
+            myServer.stop();
 	}
 
+    @Test
+    public void serverStarts() {
+        assertFalse(myServer.isClosed());
+    }
+
+    @Test
+    public void serverStops() {
+        myServer.stop();
+        assertTrue(myServer.isClosed());
+    }
+
 	@Test
-	public void shouldReturn404() throws Exception {
+	public void listenOnPort5000() throws UnknownHostException {
 		try {
-			Socket testClient = new Socket("localhost", testPort);
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+
+            Socket testClient = new Socket(InetAddress.getLocalHost(), testPort);
+
+            SocketAddress clientAddress = testClient.getRemoteSocketAddress();
+            int myPort = ((InetSocketAddress) clientAddress).getPort();
+
+            assertEquals(testPort, myPort);
+            assertEquals(testPort, myServer.getSocket().getLocalPort());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void return404() throws IOException {
+        Socket testClient = new Socket(InetAddress.getLocalHost(), testPort);
+        String inputStr = "";
+
+        PrintWriter pw = new PrintWriter(testClient.getOutputStream());
+        pw.println("GET / HTTP/1.1");
+        pw.flush();
+
+        BufferedReader input = new BufferedReader(new InputStreamReader(testClient.getInputStream()));
+        inputStr = input.readLine();
+
+
+        assertEquals("HTTP/1.1 404 Not Found", inputStr);
+    }
 }
