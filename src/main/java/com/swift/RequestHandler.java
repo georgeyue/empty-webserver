@@ -15,10 +15,9 @@ public class RequestHandler {
         this.response = response;
     }
 
-    public Response process() throws IOException {
+    public void process() throws IOException {
         // TODO should do more
         response.setNotFoundHeader();
-
-        return response;
+        response.send();
     }
 }
