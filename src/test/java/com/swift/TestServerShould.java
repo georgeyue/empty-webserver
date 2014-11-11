@@ -56,7 +56,6 @@ public class TestServerShould {
         int myPort = ((InetSocketAddress) clientAddress).getPort();
 
         assertEquals(testPort, myPort);
-        assertEquals(testPort, myServer.getSocket().getLocalPort());
     }
 
     @Test
@@ -70,7 +69,6 @@ public class TestServerShould {
 
         BufferedReader input = new BufferedReader(new InputStreamReader(testClient.getInputStream()));
         inputStr = input.readLine();
-
 
         assertEquals("HTTP/1.1 404 Not Found", inputStr);
     }
