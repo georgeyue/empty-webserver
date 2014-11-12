@@ -4,9 +4,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-/**
- * Created by gyue on 11/11/14.
- */
 public class Response {
     private Socket socket;
     private int statusCode;
