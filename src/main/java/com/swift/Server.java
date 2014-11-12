@@ -52,9 +52,9 @@ public class Server {
 
         while(!stopped && !serverSocket.isClosed()) {
             socket = serverSocket.accept();
-            Response  response = new Response(socket);
+            Request request = new Request(socket);
 
-            RequestHandler handler = new RequestHandler(response);
+            RequestHandler handler = new RequestHandler(request);
             handler.process();
         }
     }

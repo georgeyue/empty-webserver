@@ -6,16 +6,17 @@ import java.net.Socket;
 
 public class RequestHandler {
 
-    private Response response;
+    private Request request;
 
 //    TODO let's add routes to define behaviour based on routes
 //    private Routes routes;
 
-    public RequestHandler(Response response) {
-        this.response = response;
+    public RequestHandler(Request request) {
+        this.request = request;
     }
 
     public void process() throws IOException {
+        Response  response = request.getResponse();
         // TODO should do more
         response.setNotFoundHeader();
         response.send();

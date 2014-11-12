@@ -1,12 +1,42 @@
 package com.swift;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.Socket;
 
-/**
- * Created by gyue on 11/11/14.
- */
 public class Request {
-    public Request(Socket socket) {
+    private Response response;
+    private Socket socket;
+    private String method;
+    private String url;
+    private String protocol;
 
+    public Request(Socket socket) throws IOException {
+        this.socket = socket;
+        this.response = new Response(socket);
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+        String headerString = in.readLine();
+        String[] hd = headerString.split(" ");
+
+
+        // TODO check hd to tokenized with 3 items?? wtf bad implementation yo!
+        method = hd[0];
+        url = hd[1];
+        protocol = hd[2];
+    }
+
+    public Socket getSocket() {
+        return socket;
+    }
+
+    public String method() {
+        return method;
+    }
+
+    public Response getResponse() {
+        return response;
     }
 }
