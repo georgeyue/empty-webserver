@@ -29,6 +29,8 @@ public class RequestHandler {
             response.setNotFoundHeader();
         } else if (request.getMethod().equals("GET") && url.equals("/")) {
             response.ok();
+        } else if (request.getMethod().equals("POST") && url.equals("/form")) {
+            response.ok();
         } else {
             // TODO nothing matches!
         }
