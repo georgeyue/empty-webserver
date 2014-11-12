@@ -20,9 +20,9 @@ public class RequestHandler {
         String url = request.getUrl();
 
         // TODO this needs to be extracted out to have routes handle this
-        if (url.equals("/foobar")) {
+        if (request.getMethod().equals("GET") && url.equals("/foobar")) {
             response.setNotFoundHeader();
-        } else if (url.equals("/")) {
+        } else if (request.getMethod().equals("GET") && url.equals("/")) {
             response.ok();
         } else {
             // TODO nothing matches!

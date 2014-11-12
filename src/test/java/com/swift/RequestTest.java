@@ -3,6 +3,7 @@ package com.swift;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -21,7 +22,7 @@ public class RequestTest {
         socket.setText("GET / HTTP/1.1");
 
         Request req = new Request(socket);
-        assertEquals("GET", req.method());
+        assertEquals("GET", req.getMethod());
     }
 
     @Test
@@ -32,4 +33,5 @@ public class RequestTest {
         Request req = new Request(socket);
         assertEquals("/foobar", req.getUrl());
     }
+
 }

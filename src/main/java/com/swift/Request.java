@@ -8,9 +8,10 @@ import java.net.Socket;
 public class Request {
     private Response response;
     private Socket socket;
-    private String method;
-    private String url;
 
+    private String method;
+
+    private String url;
     public String getProtocol() {
         return protocol;
     }
@@ -37,7 +38,7 @@ public class Request {
         return socket;
     }
 
-    public String method() {
+    public String getMethod() {
         return method;
     }
 
