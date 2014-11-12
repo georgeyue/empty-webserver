@@ -47,10 +47,14 @@ public class Server {
     public boolean isClosed() {
         return serverSocket.isClosed();
     }
+    
+    public boolean isStopped() {
+    	return this.stopped;
+    }
 
     public void run() throws IOException {
 
-        while(!stopped && !serverSocket.isClosed()) {
+        while(!isStopped() && !serverSocket.isClosed()) {
             socket = serverSocket.accept();
             Request request = new Request(socket);
 

@@ -39,13 +39,13 @@ public class TestServerShould {
 
     @Test
     public void serverStarts() {
-        assertFalse(myServer.isClosed());
+        assertFalse(myServer.isStopped());
     }
 
     @Test
     public void serverStops() throws IOException {
         myServer.stop();
-        assertTrue(myServer.isClosed());
+        assertTrue(myServer.isStopped());
     }
 
 	@Test
