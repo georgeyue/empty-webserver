@@ -31,4 +31,12 @@ public class Response {
     public void send() throws IOException {
         socket.close();
     }
+
+    public void ok() throws IOException {
+        setStatusCode(200);
+
+        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+        out.println("HTTP/1.1 200 OK");
+        out.flush();
+    }
 }

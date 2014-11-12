@@ -10,6 +10,11 @@ public class Request {
     private Socket socket;
     private String method;
     private String url;
+
+    public String getProtocol() {
+        return protocol;
+    }
+
     private String protocol;
 
     public Request(Socket socket) throws IOException {
@@ -38,5 +43,9 @@ public class Request {
 
     public Response getResponse() {
         return response;
+    }
+
+    public String getUrl() {
+        return url;
     }
 }

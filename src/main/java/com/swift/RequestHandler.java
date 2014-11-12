@@ -18,7 +18,12 @@ public class RequestHandler {
     public void process() throws IOException {
         Response  response = request.getResponse();
         // TODO should do more
-        response.setNotFoundHeader();
+
+        if (request.getUrl().equals("/foobar")) {
+            response.setNotFoundHeader();
+        } else {
+            response.ok();
+        }
         response.send();
     }
 }

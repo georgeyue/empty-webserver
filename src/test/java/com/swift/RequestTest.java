@@ -23,4 +23,13 @@ public class RequestTest {
         Request req = new Request(socket);
         assertEquals("GET", req.method());
     }
+
+    @Test
+    public void getRequestUrl() throws IOException {
+        FakeSocket socket = new FakeSocket();
+        socket.setRequestHeader("GET /foobar HTTP/1.1");
+
+        Request req = new Request(socket);
+        assertEquals("/foobar", req.getUrl());
+    }
 }
