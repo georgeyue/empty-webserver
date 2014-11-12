@@ -18,7 +18,7 @@ public class RequestTest {
     @Test
     public void getRequestMethod() throws IOException {
         FakeSocket socket = new FakeSocket();
-        socket.setRequestHeader("GET / HTTP/1.1");
+        socket.setText("GET / HTTP/1.1");
 
         Request req = new Request(socket);
         assertEquals("GET", req.method());
@@ -27,7 +27,7 @@ public class RequestTest {
     @Test
     public void getRequestUrl() throws IOException {
         FakeSocket socket = new FakeSocket();
-        socket.setRequestHeader("GET /foobar HTTP/1.1");
+        socket.setText("GET /foobar HTTP/1.1");
 
         Request req = new Request(socket);
         assertEquals("/foobar", req.getUrl());

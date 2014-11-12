@@ -10,24 +10,30 @@ import java.net.Socket;
  * Created by gyue on 11/11/14.
  */
 public class FakeSocket extends Socket {
-    private String requestHeader = "GET / HTTP/1.1";
+    private StringBuilder text = new StringBuilder("a a a");
 
     @Override
     public OutputStream getOutputStream() throws IOException {
+        text.setLength(0);
         return new OutputStream() {
             @Override
             public void write(int b) throws IOException {
-
+                text.append((char) b);
             }
         };
     }
 
     @Override
     public InputStream getInputStream() throws IOException {
-        return new ByteArrayInputStream(requestHeader.getBytes());
+        return new ByteArrayInputStream(text.toString().getBytes());
     }
 
-    public void setRequestHeader(String s) {
-        requestHeader = s;
+    public String getText() {
+        return text.toString();
+    }
+
+    public void setText(String s) {
+        text.setLength(0);
+        text.append(s);
     }
 }

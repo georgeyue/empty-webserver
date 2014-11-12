@@ -17,12 +17,15 @@ public class RequestHandler {
 
     public void process() throws IOException {
         Response  response = request.getResponse();
-        // TODO should do more
+        String url = request.getUrl();
 
-        if (request.getUrl().equals("/foobar")) {
+        // TODO this needs to be extracted out to have routes handle this
+        if (url.equals("/foobar")) {
             response.setNotFoundHeader();
-        } else {
+        } else if (url.equals("/")) {
             response.ok();
+        } else {
+            // TODO nothing matches!
         }
         response.send();
     }

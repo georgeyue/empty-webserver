@@ -9,12 +9,12 @@ import static org.junit.Assert.*;
 
 public class FakeSocketTest {
 
-    FakeSocket  socket ;
+    FakeSocket socket;
 
     @Before
     public void setUp() {
         socket = new FakeSocket();
-        socket.setRequestHeader("GET / HTTP/1.1");
+        socket.setText("GET / HTTP/1.1");
     }
 
     @Test
@@ -25,5 +25,14 @@ public class FakeSocketTest {
         BufferedReader r2 = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
         assertEquals(r1.readLine(), r2.readLine());
+    }
+
+    @Test
+    public void verifyOutputStreamData() throws IOException {
+        PrintWriter out = new PrintWriter(socket.getOutputStream());
+        out.println("apples");
+        out.flush();
+
+        assertEquals(socket.getText(), "apples\n");
     }
 }
