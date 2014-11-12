@@ -16,7 +16,7 @@ public class ResponseTest {
         response.send();
 
         assertEquals(404, response.getStatusCode());
-        assertEquals("HTTP/1.1 404 Not Found\n", socket.getText());
+        assertEquals(String.format("HTTP/1.1 404 Not Found%n"), socket.getText());
     }
 
     @Test
@@ -26,7 +26,7 @@ public class ResponseTest {
         response.ok();
         response.send();
 
-        assertEquals("HTTP/1.1 200 OK\n", socket.getText());
+        assertEquals(String.format("HTTP/1.1 200 OK%n"), socket.getText());
     }
 
 }

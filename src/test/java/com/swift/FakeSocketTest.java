@@ -32,7 +32,6 @@ public class FakeSocketTest {
         PrintWriter out = new PrintWriter(socket.getOutputStream());
         out.println("apples");
         out.flush();
-
-        assertEquals(socket.getText(), "apples\n");
+        assertEquals(socket.getText(), String.format("apples%n"));
     }
 }
