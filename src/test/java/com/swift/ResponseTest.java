@@ -20,7 +20,7 @@ public class ResponseTest {
     }
 
     @Test
-    public void shouldResponseWithOk() throws IOException {
+    public void shouldResponseWithOk() throws IOException, ResponseLineSentException {
         FakeSocket socket = new FakeSocket();
         Response response = new Response(socket);
         response.ok();
@@ -54,7 +54,7 @@ public class ResponseTest {
     
 
     @Test
-    public void shouldSetHeader() throws IOException {
+    public void shouldSetHeader() throws IOException, ResponseLineSentException {
         FakeSocket socket = new FakeSocket();
         Response response = new Response(socket);
         response.ok();

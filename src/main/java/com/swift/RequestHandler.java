@@ -20,7 +20,7 @@ public class RequestHandler {
         this.rootDirectory = Server.getDirectory();
     }
 
-    public void process() throws IOException {
+    public void process() throws IOException, ResponseLineSentException {
         Response  response = request.getResponse();
         String url = request.getUrl();
         
