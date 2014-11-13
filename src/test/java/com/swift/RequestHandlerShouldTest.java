@@ -2,11 +2,11 @@ package com.swift;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-public class RequestHandlerTest {
+public class RequestHandlerShouldTest {
 	RequestHandler requestHandler;
 	
 	@Test
-	public void shouldNotFindFilePathWithNoBaseDirectory() throws Exception {
+	public void notFindFilePathWithNoBaseDirectory() throws Exception {
         FakeSocket socket = new FakeSocket();
         socket.setText("GET /foobar HTTP/1.1");
 		Request request = new Request(socket);
@@ -24,7 +24,7 @@ public class RequestHandlerTest {
 	}
 	
 	@Test
-	public void shouldSimplePost() throws Exception {
+	public void supportSimplePost() throws Exception {
         FakeSocket socket = new FakeSocket();
         socket.setText("POST /form My=data");
 		Request request = new Request(socket);
@@ -34,7 +34,7 @@ public class RequestHandlerTest {
 	}
 	
 	@Test
-	public void shouldSimplePut() throws Exception {
+	public void supportSimplePut() throws Exception {
         FakeSocket socket = new FakeSocket();
         socket.setText("PUT /form My=data");
 		Request request = new Request(socket);

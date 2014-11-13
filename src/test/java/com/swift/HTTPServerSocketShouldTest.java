@@ -13,7 +13,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestHttpServerSocket {
+public class HTTPServerSocketShouldTest {
 	private int testPort = 5000;
 	private httpServerSocket mySocket;
 
@@ -38,7 +38,7 @@ public class TestHttpServerSocket {
 	}
 	
 	@Test
-	public void socketShouldBeOpenOnPort5000() throws UnknownHostException, IOException {
+	public void openSocketOnPort5000() throws UnknownHostException, IOException {
         Socket testClient = new Socket(InetAddress.getLocalHost(), testPort);
 
         SocketAddress clientAddress = testClient.getRemoteSocketAddress();
@@ -51,7 +51,7 @@ public class TestHttpServerSocket {
 	}
 
 	@Test
-	public void socketCanBeClosed() throws Exception {
+	public void closeSocket() throws Exception {
 		assertFalse(mySocket.isClosed());
 		mySocket.close();
 		assertTrue(mySocket.isClosed());

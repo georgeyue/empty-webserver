@@ -6,10 +6,10 @@ import java.io.*;
 
 import static org.junit.Assert.*;
 
-public class ResponseTest {
+public class ResponseShouldTest {
 
     @Test
-    public void shouldSetHeaderNotFound() throws Exception {
+    public void setHeaderNotFound() throws Exception {
         FakeSocket socket = new FakeSocket();
         Response response = new Response(socket);
         response.setNotFoundHeader();
@@ -20,7 +20,7 @@ public class ResponseTest {
     }
 
     @Test
-    public void shouldResponseWithOk() throws IOException, ResponseLineSentException {
+    public void respondWithOk() throws IOException, ResponseLineSentException {
         FakeSocket socket = new FakeSocket();
         Response response = new Response(socket);
         response.ok();

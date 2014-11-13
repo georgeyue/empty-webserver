@@ -7,7 +7,7 @@ import java.io.*;
 
 import static org.junit.Assert.*;
 
-public class FakeSocketTest {
+public class FakeSocketShouldTest {
 
     FakeSocket socket;
 
@@ -18,7 +18,7 @@ public class FakeSocketTest {
     }
 
     @Test
-    public void testGetInputStream() throws Exception {
+    public void getInputStream() throws Exception {
         InputStream is = new ByteArrayInputStream("GET / HTTP/1.1".getBytes());
 
         BufferedReader r1 = new BufferedReader(new InputStreamReader(is));

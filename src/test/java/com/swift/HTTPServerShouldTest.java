@@ -12,7 +12,7 @@ import org.junit.Test;
 import com.swift.Server;
 
 
-public class TestServerShould {
+public class HTTPServerShouldTest {
 
 	int testPort = 5000;
 	String testDir = "/";
@@ -76,7 +76,7 @@ public class TestServerShould {
 
 
     @Test
-    public void shouldSetDirectory() {
+    public void setDirectory() {
         String dir = "/a/b/c/d/e";
         myServer.setDirectory(dir);
         assertEquals(myServer.getDirectory(), dir);

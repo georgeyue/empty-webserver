@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import static org.junit.Assert.*;
 
-public class RequestTest {
+public class RequestShouldTest {
 
 
     @Test
