@@ -17,7 +17,7 @@ public class RequestHandler {
 
     public RequestHandler(Request request) {
         this.request = request;
-        this.rootDirectory = System.getProperty("user.dir");
+        this.rootDirectory = Server.getDirectory();
     }
 
     public void process() throws IOException {

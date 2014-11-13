@@ -11,7 +11,7 @@ public class Server {
     private Socket socket;
     private int portNumber;
     private boolean stopped = false;
-    private String directory = "";
+    private static String directory = "";
 
     public Server(int portNumber, String directoryToUse) throws IOException {
         this.portNumber = portNumber;
@@ -70,7 +70,7 @@ public class Server {
         directory = dir;
     }
 
-    public String getDirectory() {
+    public static String getDirectory() {
         return directory;
     }
 }

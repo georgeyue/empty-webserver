@@ -6,12 +6,12 @@ public class RequestHandlerTest {
 	RequestHandler requestHandler;
 	
 	@Test
-	public void shouldFindFilePath() throws Exception {
+	public void shouldNotFindFilePathWithNoBaseDirectory() throws Exception {
         FakeSocket socket = new FakeSocket();
         socket.setText("GET /foobar HTTP/1.1");
 		Request request = new Request(socket);
 		requestHandler = new RequestHandler(request);
-		assertTrue(requestHandler.fileExists());
+		assertFalse(requestHandler.fileExists());
 	}
 	
 	@Test
