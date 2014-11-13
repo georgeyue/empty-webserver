@@ -20,6 +20,7 @@ public class Server {
     }
 
     public static void main(String[] args) {
+
         Server server = null;
         try {
             server = new Server(Integer.parseInt(args[1]), args[3]);
