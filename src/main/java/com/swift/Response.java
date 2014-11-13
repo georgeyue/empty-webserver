@@ -46,6 +46,8 @@ public class Response {
     }
 
     public void send() throws IOException {
+        if (!responseLineSent)
+            sendResponseLine(200);
         socket.close();
     }
 
