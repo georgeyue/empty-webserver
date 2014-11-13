@@ -40,6 +40,6 @@ public class RequestHandlerTest {
 		Request request = new Request(socket);
 		requestHandler = new RequestHandler(request);
 		requestHandler.process();
-		assertEquals(200,request.getResponse().getStatusCode());
+		assertEquals(200, request.getResponse().getStatusCode());
 	}
 }

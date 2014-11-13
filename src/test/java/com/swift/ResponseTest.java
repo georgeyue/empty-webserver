@@ -20,7 +20,7 @@ public class ResponseTest {
     }
 
     @Test
-    public void shouldResponseWithOk() throws IOException {
+    public void shouldResponseWithOk() throws IOException, ResponseLineSentException {
         FakeSocket socket = new FakeSocket();
         Response response = new Response(socket);
         response.ok();
@@ -52,5 +52,16 @@ public class ResponseTest {
         assertEquals(String.format("HTTP/1.1 200 OK%nContent-Type: text/directory%nthis is my body%n"), socket.getText());
 	}
     
+
+    @Test
+    public void shouldSetHeader() throws IOException, ResponseLineSentException {
+        FakeSocket socket = new FakeSocket();
+        Response response = new Response(socket);
+        response.ok();
+        response.sendHeader("Allowed", "GET");
+        response.send();
+
+        assertEquals(String.format("HTTP/1.1 200 OK%nAllowed: GET%n"), socket.getText());
+    }
 
 }

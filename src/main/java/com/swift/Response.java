@@ -9,21 +9,36 @@ public class Response {
     private int statusCode;
     private String contentType;
 	private String responseBody;
+    private PrintWriter out;
 
-    public Response(Socket socket) {
+    private boolean responseLineSent = false;
+
+    public Response(Socket socket) throws IOException {
         this.socket = socket;
+        out = new PrintWriter(socket.getOutputStream());
     }
 
-    public void setNotFoundHeader() throws IOException {
-        setStatusCode(404);
+    public void sendResponseLine(int i) throws ResponseLineSentException {
+        if (responseLineSent)
+            throw new ResponseLineSentException();
 
-        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-        out.println("HTTP/1.1 404 Not Found");
+        responseLineSent = true;
+        statusCode = i;
+
+        switch(statusCode) {
+            case 404:
+                out.println("HTTP/1.1 404 Not Found");
+                break;
+            case 200:
+            default:
+                out.println("HTTP/1.1 200 OK");
+        }
+
         out.flush();
     }
 
-    private void setStatusCode(int i) {
-        this.statusCode = i;
+    public void setNotFoundHeader() throws IOException, ResponseLineSentException {
+        sendResponseLine(404);
     }
 
     public int getStatusCode() {
@@ -34,11 +49,9 @@ public class Response {
         socket.close();
     }
 
-    public void ok() throws IOException {
-        setStatusCode(200);
+    public void ok() throws IOException, ResponseLineSentException {
+        sendResponseLine(200);
 
-        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-        out.println("HTTP/1.1 200 OK");
         if(getContentType() != null)
         	out.println("Content-Type: " + getContentType());
         if(getResponseBody() != null)
@@ -61,4 +74,9 @@ public class Response {
 	public String getResponseBody() {
 		return this.responseBody;
 	}
+
+    public void sendHeader(String key, String value) throws IOException {
+        out.println(key + ": " + value);
+        out.flush();
+    }
 }

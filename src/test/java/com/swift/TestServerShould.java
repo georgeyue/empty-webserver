@@ -25,7 +25,7 @@ public class TestServerShould {
             public void run() {
                 try {
                     myServer.run();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
             }

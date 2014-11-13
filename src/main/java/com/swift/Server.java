@@ -29,7 +29,7 @@ public class Server {
 
         try {
             server.run();
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
@@ -53,7 +53,7 @@ public class Server {
     	return this.stopped;
     }
 
-    public void run() throws IOException {
+    public void run() throws IOException, ResponseLineSentException {
 
         while(!isStopped() && !serverSocket.isClosed()) {
             socket = serverSocket.accept();

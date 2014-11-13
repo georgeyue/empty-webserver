@@ -20,12 +20,14 @@ public class RequestHandler {
         this.rootDirectory = Server.getDirectory();
     }
 
-    public void process() throws IOException {
+    public void process() throws IOException, ResponseLineSentException {
         Response  response = request.getResponse();
         String url = request.getUrl();
         
         // TODO this needs to be extracted out to have routes handle this
-        if (request.getMethod().equals("GET") && url.equals("/foobar")) {
+        if (request.getMethod().equals("OPTION") && url.equals("/method_options")) {
+            response.ok();
+        } else if (request.getMethod().equals("GET") && url.equals("/foobar")) {
             response.setNotFoundHeader();
         } else if (request.getMethod().equals("GET") && url.equals("/")) {
         	if(fileExists())
