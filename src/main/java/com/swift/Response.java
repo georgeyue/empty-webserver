@@ -57,7 +57,7 @@ public class Response {
         if(getContentType() != null)
         	out.println("Content-Type: " + getContentType());
         if(getResponseBody() != null)
-        	out.println(getResponseBody());
+        	out.println("\n" + getResponseBody());
         out.flush();
     }
 

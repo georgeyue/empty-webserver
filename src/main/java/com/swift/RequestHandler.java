@@ -33,7 +33,8 @@ public class RequestHandler {
             response.setNotFoundHeader();
         } else if (request.getMethod().equals("GET") && url.equals("/")) {
         	if(fileExists())
-                response.setContentType("text/directory");
+                response.setContentType("text/plain");
+        		response.setResponseBody(directoryListing());
             response.ok();
         } else if (request.getMethod().equals("POST") && url.equals("/form")) {
             response.ok();
@@ -51,13 +52,13 @@ public class RequestHandler {
 		return Files.exists(pathToCheck);
     }
     
-    public ArrayList<String> directoryListing() {
-    	ArrayList<String> directoryList = new ArrayList<String>();
+    public String directoryListing() {
+    	String directoryList = null;
     	Path directory = FileSystems.getDefault().getPath(rootDirectory);
     	try {
 			DirectoryStream<Path> stream = Files.newDirectoryStream(directory);
 			for(Path file : stream) {
-				directoryList.add(file.getFileName().toString());
+				directoryList += file.getFileName().toString() + "\n";
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

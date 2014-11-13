@@ -49,7 +49,7 @@ public class ResponseTest {
         response.ok();
         response.send();
 
-        assertEquals(String.format("HTTP/1.1 200 OK%nContent-Type: text/directory%nthis is my body%n"), socket.getText());
+        assertEquals(String.format("HTTP/1.1 200 OK%nContent-Type: text/directory%n%nthis is my body%n"), socket.getText());
 	}
     
 
