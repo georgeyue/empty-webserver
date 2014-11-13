@@ -9,15 +9,16 @@ public class Response {
     private int statusCode;
     private String contentType;
 	private String responseBody;
+    private PrintWriter out;
 
-    public Response(Socket socket) {
+    public Response(Socket socket) throws IOException {
         this.socket = socket;
+        out = new PrintWriter(socket.getOutputStream());
     }
 
     public void setNotFoundHeader() throws IOException {
         setStatusCode(404);
 
-        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
         out.println("HTTP/1.1 404 Not Found");
         out.flush();
     }

@@ -11,7 +11,9 @@ public class RequestTest {
 
     @Test
     public void initWithSocket() throws IOException {
-        Request req = new Request( new FakeSocket() );
+        FakeSocket socket = new FakeSocket();
+        socket.setText("GET / HTTP");
+        Request req = new Request(socket);
         assertNotNull(req.getSocket());
     }
 
