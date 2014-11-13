@@ -23,7 +23,7 @@ public class RequestHandler {
     public void process() throws IOException {
         Response  response = request.getResponse();
         String url = request.getUrl();
-        
+        System.out.println("URL is " + url);
         // TODO this needs to be extracted out to have routes handle this
         if (request.getMethod().equals("GET") && url.equals("/foobar")) {
             response.setNotFoundHeader();
@@ -33,6 +33,10 @@ public class RequestHandler {
             response.ok();
         }else if (request.getMethod().equals("PUT") && url.equals("/form")) {
             response.ok();
+        }else if (request.getMethod().equals("PUT") && url.equals("/file1")) {
+        	response.setMethodNotFound();
+        }else if (request.getMethod().equals("POST") && url.equals("/text-file1.txt")) {
+        	response.setMethodNotFound();
         }else {
             // TODO nothing matches!
         }
