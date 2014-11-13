@@ -37,7 +37,6 @@ public class Response {
     public void ok() throws IOException {
         setStatusCode(200);
 
-        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
         out.println("HTTP/1.1 200 OK");
         if(getContentType() != null)
         	out.println("Content-Type: " + getContentType());
@@ -61,4 +60,9 @@ public class Response {
 	public String getResponseBody() {
 		return this.responseBody;
 	}
+
+    public void sendHeader(String key, String value) throws IOException {
+        out.println(key + ": " + value);
+        out.flush();
+    }
 }

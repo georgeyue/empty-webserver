@@ -53,4 +53,15 @@ public class ResponseTest {
 	}
     
 
+    @Test
+    public void shouldSetHeader() throws IOException {
+        FakeSocket socket = new FakeSocket();
+        Response response = new Response(socket);
+        response.ok();
+        response.sendHeader("Allowed", "GET");
+        response.send();
+
+        assertEquals(String.format("HTTP/1.1 200 OK%nAllowed: GET%n"), socket.getText());
+    }
+
 }
