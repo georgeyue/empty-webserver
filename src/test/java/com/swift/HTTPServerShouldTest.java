@@ -12,7 +12,7 @@ import org.junit.Test;
 import com.swift.Server;
 
 
-public class TestServerShould {
+public class HTTPServerShouldTest {
 
 	int testPort = 5000;
 	String testDir = "/";
@@ -50,7 +50,7 @@ public class TestServerShould {
     }
 
 	@Test
-	public void listenOnPort5000() throws IOException {
+	public void itIslisteningOnPort5000() throws IOException {
         Socket testClient = new Socket(InetAddress.getLocalHost(), testPort);
 
         SocketAddress clientAddress = testClient.getRemoteSocketAddress();
@@ -60,7 +60,7 @@ public class TestServerShould {
     }
 
     @Test
-    public void return404() throws IOException {
+    public void itReturns404() throws IOException {
         Socket testClient = new Socket(InetAddress.getLocalHost(), testPort);
         String inputStr = "";
 
@@ -76,7 +76,7 @@ public class TestServerShould {
 
 
     @Test
-    public void shouldSetDirectory() {
+    public void setDirectory() {
         String dir = "/a/b/c/d/e";
         myServer.setDirectory(dir);
         assertEquals(myServer.getDirectory(), dir);

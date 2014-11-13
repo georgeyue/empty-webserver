@@ -6,10 +6,10 @@ import java.io.*;
 
 import static org.junit.Assert.*;
 
-public class ResponseTest {
+public class ResponseShouldTest {
 
     @Test
-    public void shouldSetHeaderNotFound() throws Exception {
+    public void headerNotFound() throws Exception {
         FakeSocket socket = new FakeSocket();
         Response response = new Response(socket);
         response.setNotFoundHeader();
@@ -19,7 +19,7 @@ public class ResponseTest {
     }
 
     @Test
-    public void shouldResponseWithOk() throws IOException {
+    public void responseIsOk() throws IOException {
         FakeSocket socket = new FakeSocket();
         Response response = new Response(socket);
         response.ok();
@@ -28,7 +28,7 @@ public class ResponseTest {
     }
     
     @Test
-	public void shouldListDirectory() throws Exception {
+	public void isDirectoryPresent() throws Exception {
         FakeSocket socket = new FakeSocket();
         Response response = new Response(socket);
         response.setContentType("text/directory");
@@ -39,7 +39,7 @@ public class ResponseTest {
 	}
     
     @Test
-	public void shouldListDirectoryContents() throws Exception {
+	public void listDirectoryContents() throws Exception {
         FakeSocket socket = new FakeSocket();
         Response response = new Response(socket);
         response.setContentType("text/directory");
@@ -52,7 +52,7 @@ public class ResponseTest {
     
 
     @Test
-    public void shouldSetHeader() throws IOException {
+    public void setHeader() throws IOException {
         FakeSocket socket = new FakeSocket();
         Response response = new Response(socket);
         response.ok();
