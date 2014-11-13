@@ -31,7 +31,9 @@ public class RequestHandler {
             response.ok();
         } else if (request.getMethod().equals("POST") && url.equals("/form")) {
             response.ok();
-        } else {
+        }else if (request.getMethod().equals("PUT") && url.equals("/form")) {
+            response.ok();
+        }else {
             // TODO nothing matches!
         }
         response.send();

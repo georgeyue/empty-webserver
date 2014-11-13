@@ -31,7 +31,7 @@ public class Request {
         // TODO check hd to tokenized with 3 items?? wtf bad implementation yo!
         method = hd[0];
         url = hd[1];
-        protocol = hd[2];
+        protocol = hd[2];  //isn't this data
     }
 
     public Socket getSocket() {
