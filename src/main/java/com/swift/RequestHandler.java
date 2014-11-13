@@ -1,11 +1,11 @@
 package com.swift;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.Socket;
+import java.nio.file.DirectoryStream;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 
 public class RequestHandler {
 
@@ -17,16 +17,22 @@ public class RequestHandler {
 
     public RequestHandler(Request request) {
         this.request = request;
-        this.rootDirectory = System.getProperty("user.dir");
+        this.rootDirectory = Server.getDirectory();
     }
 
     public void process() throws IOException {
         Response  response = request.getResponse();
         String url = request.getUrl();
         // TODO this needs to be extracted out to have routes handle this
-        if (request.getMethod().equals("GET") && url.equals("/foobar")) {
+        if (url.equals("/method_options")) {
+            if (request.getMethod().equals("OPTIONS"))
+                response.sendHeader("Allow", "GET,HEAD,POST,OPTIONS,PUT");
+            response.send();
+        } else if (request.getMethod().equals("GET") && url.equals("/foobar")) {
             response.setNotFoundHeader();
         } else if (request.getMethod().equals("GET") && url.equals("/")) {
+        	if(fileExists())
+                response.setContentType("text/directory");
             response.ok();
         } else if (request.getMethod().equals("POST") && url.equals("/form")) {
             response.ok();
@@ -46,5 +52,19 @@ public class RequestHandler {
     	String fileToCheck = this.request.getUrl();
     	Path pathToCheck = FileSystems.getDefault().getPath(rootDirectory, fileToCheck);
 		return Files.exists(pathToCheck);
+    }
+    
+    public ArrayList<String> directoryListing() {
+    	ArrayList<String> directoryList = new ArrayList<String>();
+    	Path directory = FileSystems.getDefault().getPath(rootDirectory);
+    	try {
+			DirectoryStream<Path> stream = Files.newDirectoryStream(directory);
+			for(Path file : stream) {
+				directoryList.add(file.getFileName().toString());
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	return directoryList;
     }
 }

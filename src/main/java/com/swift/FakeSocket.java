@@ -6,16 +6,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
-/**
- * Created by gyue on 11/11/14.
- */
 public class FakeSocket extends Socket {
-    private StringBuilder text = new StringBuilder("a a a");
+    private StringBuilder text = new StringBuilder("");
+    private OutputStream out;
 
-    @Override
-    public OutputStream getOutputStream() throws IOException {
-        text.setLength(0);
-        return new OutputStream() {
+    public FakeSocket() {
+        out = new OutputStream() {
             @Override
             public void write(int b) throws IOException {
                 text.append((char) b);
@@ -24,8 +20,17 @@ public class FakeSocket extends Socket {
     }
 
     @Override
+    public OutputStream getOutputStream() throws IOException {
+        return out;
+    }
+
+    @Override
     public InputStream getInputStream() throws IOException {
         return new ByteArrayInputStream(text.toString().getBytes());
+    }
+
+    public void clearOutput() {
+        text.setLength(0);
     }
 
     public String getText() {
@@ -35,5 +40,6 @@ public class FakeSocket extends Socket {
     public void setText(String s) {
         text.setLength(0);
         text.append(s);
+        text.append(String.format("%n"));
     }
 }

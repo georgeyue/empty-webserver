@@ -29,6 +29,7 @@ public class FakeSocketTest {
 
     @Test
     public void verifyOutputStreamData() throws IOException {
+        socket.clearOutput();
         PrintWriter out = new PrintWriter(socket.getOutputStream());
         out.println("apples");
         out.flush();

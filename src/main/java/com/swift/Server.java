@@ -3,14 +3,13 @@ package com.swift;
 import java.io.*;
 import java.net.Socket;
 
-
 public class Server {
 
 	private httpServerSocket serverSocket;
     private Socket socket;
     private int portNumber;
     private boolean stopped = false;
-    private String directory = "";
+    private static String directory = "";
 
     public Server(int portNumber, String directoryToUse) throws IOException {
         this.portNumber = portNumber;
@@ -30,7 +29,7 @@ public class Server {
 
         try {
             server.run();
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
@@ -69,7 +68,7 @@ public class Server {
         directory = dir;
     }
 
-    public String getDirectory() {
+    public static String getDirectory() {
         return directory;
     }
 }
