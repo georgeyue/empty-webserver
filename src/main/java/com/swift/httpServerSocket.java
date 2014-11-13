@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class httpServerSocket {
+public class httpServerSocket implements SwiftServerSocket {
 
 	private ServerSocket serverSocket;
 	

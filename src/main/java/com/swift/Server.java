@@ -7,15 +7,19 @@ import java.util.Arrays;
 
 public class Server {
 
-	private httpServerSocket serverSocket;
+	private SwiftServerSocket serverSocket;
     private Socket socket;
     private int portNumber;
     private boolean stopped = false;
     private String directory = "";
 
     public Server(int portNumber, String directoryToUse) throws IOException {
+        this(portNumber, directoryToUse, new httpServerSocket(portNumber));
+    }
+
+    public Server(int portNumber, String directoryToUse, SwiftServerSocket socket)  {
         this.portNumber = portNumber;
-        serverSocket = new httpServerSocket(portNumber);
+        serverSocket = socket;
         this.directory = directoryToUse;
     }
 
@@ -27,7 +31,6 @@ public class Server {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
 
         try {
             server.run();
@@ -43,7 +46,7 @@ public class Server {
             serverSocket.close();
     }
 
-    public httpServerSocket getSocket() {
+    public SwiftServerSocket getSocket() {
         return serverSocket;
     }
 
