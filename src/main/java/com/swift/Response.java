@@ -18,9 +18,9 @@ public class Response {
         out = new PrintWriter(socket.getOutputStream());
     }
 
-    public void sendResponseLine(int i) throws ResponseLineSentException {
+    public void sendResponseLine(int i) {
         if (responseLineSent)
-            throw new ResponseLineSentException();
+            return;
 
         responseLineSent = true;
         statusCode = i;
@@ -37,7 +37,7 @@ public class Response {
         out.flush();
     }
 
-    public void setNotFoundHeader() throws IOException, ResponseLineSentException {
+    public void setNotFoundHeader() throws IOException {
         sendResponseLine(404);
     }
 
@@ -46,10 +46,12 @@ public class Response {
     }
 
     public void send() throws IOException {
+        if (!responseLineSent)
+            sendResponseLine(200);
         socket.close();
     }
 
-    public void ok() throws IOException, ResponseLineSentException {
+    public void ok() throws IOException {
         sendResponseLine(200);
 
         if(getContentType() != null)
@@ -76,6 +78,9 @@ public class Response {
 	}
 
     public void sendHeader(String key, String value) throws IOException {
+        if (!responseLineSent)
+            sendResponseLine(200);
+
         out.println(key + ": " + value);
         out.flush();
     }

@@ -20,13 +20,15 @@ public class RequestHandler {
         this.rootDirectory = Server.getDirectory();
     }
 
-    public void process() throws IOException, ResponseLineSentException {
+    public void process() throws IOException {
         Response  response = request.getResponse();
         String url = request.getUrl();
         
         // TODO this needs to be extracted out to have routes handle this
-        if (request.getMethod().equals("OPTION") && url.equals("/method_options")) {
-            response.ok();
+        if (url.equals("/method_options")) {
+            if (request.getMethod().equals("OPTIONS"))
+                response.sendHeader("Allow", "GET,HEAD,POST,OPTIONS,PUT");
+            response.send();
         } else if (request.getMethod().equals("GET") && url.equals("/foobar")) {
             response.setNotFoundHeader();
         } else if (request.getMethod().equals("GET") && url.equals("/")) {

@@ -53,7 +53,7 @@ public class Server {
     	return this.stopped;
     }
 
-    public void run() throws IOException, ResponseLineSentException {
+    public void run() throws IOException {
 
         while(!isStopped() && !serverSocket.isClosed()) {
             socket = serverSocket.accept();
