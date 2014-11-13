@@ -6,7 +6,7 @@ import java.util.List;
 public class RoutesMatcher {
     public List<Route> routes = new ArrayList<Route>();
 
-    public void add(Route route) {
+    public void add(StaticRoute route) {
         routes.add(route);
     }
 

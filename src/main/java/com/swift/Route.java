@@ -1,4 +1,6 @@
 package com.swift;
 
-public class Route {
+public interface Route {
+    void handle();
+    boolean isMatch();
 }
