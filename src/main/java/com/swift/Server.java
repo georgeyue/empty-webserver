@@ -12,6 +12,7 @@ public class Server {
     private int portNumber;
     private boolean stopped = false;
     private String directory = "";
+    private RequestHandler requestHandler;
 
     public Server(int portNumber, String directoryToUse) throws IOException {
         this(portNumber, directoryToUse, new httpServerSocket(portNumber));
@@ -21,6 +22,7 @@ public class Server {
         this.portNumber = portNumber;
         serverSocket = socket;
         this.directory = directoryToUse;
+        this.requestHandler = new RequestHandler();
     }
 
     public static void main(String[] args) {
@@ -62,10 +64,7 @@ public class Server {
 
         while(!isStopped() && !serverSocket.isClosed()) {
             socket = serverSocket.accept();
-            Request request = new Request(socket);
-
-            RequestHandler handler = new RequestHandler(request);
-            handler.process();
+            requestHandler.handleRequestFrom(socket);
         }
     }
 
@@ -75,5 +74,13 @@ public class Server {
 
     public String getDirectory() {
         return directory;
+    }
+
+    public void setRequestHandler(RequestHandler requestHandler) {
+        this.requestHandler = requestHandler;
+    }
+
+    public RequestHandler getRequestHandler() {
+        return requestHandler;
     }
 }

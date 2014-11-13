@@ -15,9 +15,19 @@ public class RequestHandler {
 //    TODO let's add routes to define behaviour based on routes
 //    private Routes routes;
 
+    public RequestHandler() {
+        this(null);
+    }
+
     public RequestHandler(Request request) {
         this.request = request;
         this.rootDirectory = System.getProperty("user.dir");
+    }
+
+    public void handleRequestFrom(Socket socket) throws IOException {
+        Request request = new Request(socket);
+        RequestHandler handler = new RequestHandler(request);
+        handler.process();
     }
 
     public void process() throws IOException {
