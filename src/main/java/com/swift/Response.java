@@ -14,13 +14,12 @@ public class Response {
 
     public void setNotFoundHeader() throws IOException {
         setStatusCode(404);
-
         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
         out.println("HTTP/1.1 404 Not Found");
         out.flush();
     }
     
-    public void setMethodNotFound() throws IOException {
+    public void setMethodNotAllowed() throws IOException {
         setStatusCode(405);
         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
         out.println("HTTP/1.1 405 Method Not Allowed");

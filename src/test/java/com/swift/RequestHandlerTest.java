@@ -41,11 +41,10 @@ public class RequestHandlerTest {
 		Request request = new Request(socket);
 		requestHandler = new RequestHandler(request);
 		requestHandler.process();
-		
 		assertEquals(405,request.getResponse().getStatusCode());
 	}
 	
-	/*@Test
+	@Test
 	public void shouldMethodNotAllowedWithPost() throws Exception{
 		FakeSocket socket = new FakeSocket();
 		socket.setText("POST /text-file.txt My=data");
@@ -53,5 +52,5 @@ public class RequestHandlerTest {
 		requestHandler = new RequestHandler(request);
 		requestHandler.process();
 		assertEquals(405,request.getResponse().getStatusCode());
-	}*/
+	}
 }
