@@ -28,5 +28,7 @@ public class ResponseTest {
 
         assertEquals(String.format("HTTP/1.1 200 OK%n"), socket.getText());
     }
+    
+    
 
 }

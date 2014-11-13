@@ -24,4 +24,14 @@ public class RequestHandlerTest {
 		
 		assertTrue(requestHandler.fileExists());
 	}
+	
+	@Test
+	public void simplePost() throws Exception {
+        FakeSocket socket = new FakeSocket();
+        socket.setText("POST /form My=data");
+		Request request = new Request(socket);
+		requestHandler = new RequestHandler(request);
+		requestHandler.process();
+		assertEquals(200,request.getResponse().getStatusCode());
+	}
 }
