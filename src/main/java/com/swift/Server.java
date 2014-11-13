@@ -18,9 +18,10 @@ public class Server {
     }
 
     public static void main(String[] args) {
+
         Server server = null;
         try {
-            server = new Server(Integer.parseInt(args[0]));
+            server = new Server(Integer.parseInt(args[1]));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
