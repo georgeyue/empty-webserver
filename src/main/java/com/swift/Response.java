@@ -17,7 +17,11 @@ public class Response {
         this.socket = socket;
         out = new PrintWriter(socket.getOutputStream());
     }
-
+    
+    public void setMethodNotAllowed() throws IOException {
+    	sendResponseLine(405);
+    }
+    
     public void sendResponseLine(int i) {
         if (responseLineSent)
             return;
@@ -29,9 +33,13 @@ public class Response {
             case 404:
                 out.println("HTTP/1.1 404 Not Found");
                 break;
+            case 405:
+            	out.println("HTTP/1.1 405 Method Not Allowed");
+            	break;
             case 200:
             default:
                 out.println("HTTP/1.1 200 OK");
+              
         }
 
         out.flush();
