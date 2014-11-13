@@ -29,6 +29,28 @@ public class ResponseTest {
         assertEquals(String.format("HTTP/1.1 200 OK%n"), socket.getText());
     }
     
+    @Test
+	public void shouldListDirectory() throws Exception {
+        FakeSocket socket = new FakeSocket();
+        Response response = new Response(socket);
+        response.setContentType("text/directory");
+        response.ok();
+        response.send();
+
+        assertEquals(String.format("HTTP/1.1 200 OK%nContent-Type: text/directory%n"), socket.getText());
+	}
+    
+    @Test
+	public void shouldListDirectoryContents() throws Exception {
+        FakeSocket socket = new FakeSocket();
+        Response response = new Response(socket);
+        response.setContentType("text/directory");
+        response.setResponseBody("this is my body");
+        response.ok();
+        response.send();
+
+        assertEquals(String.format("HTTP/1.1 200 OK%nContent-Type: text/directory%nthis is my body%n"), socket.getText());
+	}
     
 
 }

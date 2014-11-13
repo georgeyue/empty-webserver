@@ -7,6 +7,8 @@ import java.net.Socket;
 public class Response {
     private Socket socket;
     private int statusCode;
+    private String contentType;
+	private String responseBody;
 
     public Response(Socket socket) {
         this.socket = socket;
@@ -37,6 +39,26 @@ public class Response {
 
         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
         out.println("HTTP/1.1 200 OK");
+        if(getContentType() != null)
+        	out.println("Content-Type: " + getContentType());
+        if(getResponseBody() != null)
+        	out.println(getResponseBody());
         out.flush();
     }
+
+	public String getContentType() {
+		return contentType;
+	}
+
+	public void setContentType(String contentType) {
+		this.contentType = contentType;
+	}
+
+	public void setResponseBody(String body) {
+		this.responseBody = body;
+	}
+
+	public String getResponseBody() {
+		return this.responseBody;
+	}
 }
