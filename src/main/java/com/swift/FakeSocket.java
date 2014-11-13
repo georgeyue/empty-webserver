@@ -6,9 +6,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
-/**
- * Created by gyue on 11/11/14.
- */
 public class FakeSocket extends Socket {
     private StringBuilder text = new StringBuilder("a a a");
 
