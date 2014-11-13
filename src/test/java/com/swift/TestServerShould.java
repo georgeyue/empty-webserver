@@ -15,11 +15,12 @@ import com.swift.Server;
 public class TestServerShould {
 
 	int testPort = 5000;
+	String testDir = "/";
 	Server myServer;
 
     @Before
 	public void setUp() throws IOException {
-        myServer = new Server(testPort);
+        myServer = new Server(testPort, testDir);
         new Thread() {
             public void run() {
                 try {

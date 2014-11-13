@@ -3,6 +3,7 @@ package com.swift;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Arrays;
 
 public class Server {
 
@@ -12,15 +13,16 @@ public class Server {
     private boolean stopped = false;
     private String directory = "";
 
-    public Server(int portNumber) throws IOException {
+    public Server(int portNumber, String directoryToUse) throws IOException {
         this.portNumber = portNumber;
         serverSocket = new httpServerSocket(portNumber);
+        this.directory = directoryToUse;
     }
 
     public static void main(String[] args) {
         Server server = null;
         try {
-            server = new Server(Integer.parseInt(args[0]));
+            server = new Server(Integer.parseInt(args[1]), args[3]);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
