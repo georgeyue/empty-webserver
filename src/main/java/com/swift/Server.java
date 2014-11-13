@@ -7,12 +7,10 @@ public class Server {
 
 	private httpServerSocket serverSocket;
     private Socket socket;
-    private int portNumber;
     private boolean stopped = false;
     private static String directory = "";
 
     public Server(int portNumber, String directoryToUse) throws IOException {
-        this.portNumber = portNumber;
         serverSocket = new httpServerSocket(portNumber);
         this.directory = directoryToUse;
     }
