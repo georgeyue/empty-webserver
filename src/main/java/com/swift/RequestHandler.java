@@ -23,7 +23,6 @@ public class RequestHandler {
     public void process() throws IOException {
         Response  response = request.getResponse();
         String url = request.getUrl();
-        System.out.println(url);
         // TODO this needs to be extracted out to have routes handle this
         if (url.equals("/method_options")) {
             if (request.getMethod().equals("OPTIONS"))
