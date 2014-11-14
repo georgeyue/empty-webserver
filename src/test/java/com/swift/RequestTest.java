@@ -24,6 +24,15 @@ public class RequestTest {
     }
 
     @Test
+    public void getRequestMethodWhenNotProvided() throws IOException {
+        FakeSocket socket = new FakeSocket();
+        socket.setText("");
+
+        Request req = new Request(socket);
+        assertEquals("", req.getMethod());
+    }
+
+    @Test
     public void getRequestUrl() throws IOException {
         FakeSocket socket = new FakeSocket();
         socket.setText("GET /foobar HTTP/1.1");
@@ -32,4 +41,23 @@ public class RequestTest {
         assertEquals("/foobar", req.getUrl());
     }
 
+    @Test
+    public void returnsRequestProtocol() throws IOException {
+        FakeSocket socket = new FakeSocket();
+        socket.setText("GET /foobar HTTP/1.1");
+
+        Request req = new Request(socket);
+        assertEquals("HTTP/1.1", req.getProtocol());
+    }
+
+
+    @Test
+    public void returnRequestLine() throws IOException {
+        String line = "GET / HTTP";
+        FakeSocket socket = new FakeSocket();
+        socket.setText(line);
+        Request req = new Request(socket);
+
+        assertEquals(line, req.getRequestLine());
+    }
 }

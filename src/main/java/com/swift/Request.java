@@ -8,30 +8,40 @@ import java.net.Socket;
 public class Request {
     private Response response;
     private Socket socket;
-
     private String method;
-
     private String url;
-    public String getProtocol() {
-        return protocol;
-    }
-
     private String protocol;
+    private String requestLine;
+    private String[] tokenizedRequestLine;
 
     public Request(Socket socket) throws IOException {
         this.socket = socket;
         this.response = new Response(socket);
+        method = null;
+        url = null;
+        protocol = null;
+        requestLine = null;
+    }
 
-        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+    public String getRequestLine() {
+        BufferedReader in;
+        if (requestLine == null) {
+            try {
+                in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                requestLine = in.readLine();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return requestLine;
+    }
 
-        String headerString = in.readLine();
-        String[] hd = headerString.split(" ");
-
-
-        // TODO check hd to tokenized with 3 items?? wtf bad implementation yo!
-        method = hd[0];
-        url = hd[1];
-        protocol = hd[2];  //isn't this data
+    public String getProtocol() {
+        if (protocol == null) {
+            String[] tokens = getTokenizedRequestLine();
+            protocol = tokens.length == 3 ? tokens[2] : "";
+        }
+        return protocol;
     }
 
     public Socket getSocket() {
@@ -39,7 +49,26 @@ public class Request {
     }
 
     public String getMethod() {
+        String[] tokens;
+
+        if (method == null) {
+            tokens = getTokenizedRequestLine();
+            if(tokens.length == 3) {
+                method = tokens[0];
+            } else {
+                method = "";
+                // log somekind of warn message if requestLine no method
+            }
+        }
         return method;
+    }
+
+    private String[] getTokenizedRequestLine() {
+        if (tokenizedRequestLine == null) {
+            String line = getRequestLine();
+            tokenizedRequestLine = line.split(" ");
+        }
+        return tokenizedRequestLine;
     }
 
     public Response getResponse() {
@@ -47,6 +76,12 @@ public class Request {
     }
 
     public String getUrl() {
+        if (url == null) {
+            String[] tokens = getTokenizedRequestLine();
+            url = tokens.length == 3 ? tokens[1] : "";
+        }
         return url;
     }
+
+    
 }
