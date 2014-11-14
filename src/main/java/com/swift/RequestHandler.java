@@ -23,6 +23,7 @@ public class RequestHandler {
     public void process() throws IOException {
         Response  response = request.getResponse();
         String url = request.getUrl();
+        System.out.println(url);
         // TODO this needs to be extracted out to have routes handle this
         if (url.equals("/method_options")) {
             if (request.getMethod().equals("OPTIONS"))
@@ -31,9 +32,10 @@ public class RequestHandler {
         } else if (request.getMethod().equals("GET") && url.equals("/foobar")) {
             response.setNotFoundHeader();
         } else if (request.getMethod().equals("GET") && url.equals("/")) {
-        	if(fileExists())
-                response.setContentType("text/plain");
+        	if(fileExists()) {
+                response.setContentType("text/html");
         		response.setResponseBody(directoryListing());
+        	}
             response.ok();
         } else if (request.getMethod().equals("POST") && url.equals("/form")) {
             response.ok();
@@ -56,16 +58,18 @@ public class RequestHandler {
     }
     
     public String directoryListing() {
-    	String directoryList = null;
+    	String directoryList = "<html><head><title>Directory</title></head><body>";
     	Path directory = FileSystems.getDefault().getPath(rootDirectory);
     	try {
 			DirectoryStream<Path> stream = Files.newDirectoryStream(directory);
 			for(Path file : stream) {
-				directoryList += file.getFileName().toString() + "\n";
+				if(!file.toFile().isHidden())
+					directoryList += "<a href=\"/" + file.getFileName().toString() + "\">" + file.getFileName().toString() + "</a><br/>";
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+    	directoryList += "</body></html>";
     	return directoryList;
     }
 }
