@@ -45,8 +45,9 @@ public class FileFinderTest {
 	
 	@Test
 	public void shouldReturnFileContents() throws Exception {
+		String LS = System.getProperty("line.separator");
 		String fileName = "foobar";
-		String fileContents = "foobar\n";
+		String fileContents = "foobar" + LS;
 		byte[] fileByteContents = fileContents.getBytes();
 		
 		File testRootDirectory = new File(FileFinder.class.getProtectionDomain().getCodeSource().getLocation().getPath());
@@ -54,7 +55,6 @@ public class FileFinderTest {
 		
 		finder.setRootDirectory(rootDirectory);
 		finder.setFile(fileName);
-		
 		assertTrue(Arrays.equals(fileByteContents, finder.getFileContents()));
 	}
 }
