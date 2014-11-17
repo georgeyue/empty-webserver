@@ -1,8 +1,10 @@
 package com.swift;
 
+import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 public class FileFinder {
 	private String rootDirectory;
@@ -33,5 +35,16 @@ public class FileFinder {
 
 	public void setFile(String fileName) {
 		this.theFile = fileName;
+	}
+
+	public byte[] getFileContents() {
+		Path pathToFile = this.getAbsoluteFilePath();
+		byte[] fileContents = null;
+		try {
+			fileContents = Files.readAllBytes(pathToFile);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return fileContents;
 	}
 }

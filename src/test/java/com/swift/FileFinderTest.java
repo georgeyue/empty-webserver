@@ -3,6 +3,7 @@ package com.swift;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.util.Arrays;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -40,5 +41,20 @@ public class FileFinderTest {
 		finder.setFile(fileName);
 		finder.setRootDirectory(rootDirectory);
 		assertTrue(finder.exists());
+	}
+	
+	@Test
+	public void shouldReturnFileContents() throws Exception {
+		String fileName = "foobar";
+		String fileContents = "foobar\n";
+		byte[] fileByteContents = fileContents.getBytes();
+		
+		File testRootDirectory = new File(FileFinder.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+		String rootDirectory = testRootDirectory.getParentFile().getParentFile().toString() + "/src/test/java/com/swift";
+		
+		finder.setRootDirectory(rootDirectory);
+		finder.setFile(fileName);
+		
+		assertTrue(Arrays.equals(fileByteContents, finder.getFileContents()));
 	}
 }
