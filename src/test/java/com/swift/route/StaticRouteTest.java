@@ -14,7 +14,7 @@ public class StaticRouteTest {
 
     @Test
     public void createNewRoute() throws IOException {
-        Route route = new StaticRoute(new FakeRequest());
+        Route route = new StaticRoute();
         assertNotNull(route);
     }
 
@@ -23,9 +23,9 @@ public class StaticRouteTest {
         FakeRequest req = new FakeRequest();
         req.setUrl("/foobar");
 
-        Route route = new StaticRoute(req);
+        Route route = new StaticRoute();
 
-        assertTrue(route.isMatch());
+        assertTrue(route.isMatch(req));
     }
 
 }

@@ -7,8 +7,7 @@ public class StaticRoute implements Route {
     private Request request;
     private String urlRegex;
 
-    public StaticRoute(Request request) {
-        this.request = request;
+    public StaticRoute() {
         urlRegex = "^/.*";
     }
 
@@ -17,7 +16,8 @@ public class StaticRoute implements Route {
     }
 
     @Override
-    public boolean isMatch() {
+    public boolean isMatch(Request request) {
+        this.request = request;
         return request.getUrl().matches(urlRegex);
     }
 }
