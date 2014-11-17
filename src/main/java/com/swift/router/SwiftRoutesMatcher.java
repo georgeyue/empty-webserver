@@ -44,6 +44,7 @@ public class SwiftRoutesMatcher extends RoutesMatcher {
             @Override
             public void handle() throws IOException {
                 response.ok();
+                response.send();
             }
 
             @Override
@@ -55,5 +56,50 @@ public class SwiftRoutesMatcher extends RoutesMatcher {
         });
 
 
+        routes.add(new BaseRoute() {
+            @Override
+            public void handle() throws IOException {
+                response.ok();
+                response.send();
+            }
+
+            @Override
+            public boolean isMatch(Request request) {
+                super.isMatch(request);
+                return request.getMethod().equals("PUT")
+                        && request.getUrl().equals("/form");
+            }
+        });
+
+
+        routes.add(new BaseRoute() {
+            @Override
+            public void handle() throws IOException {
+                response.setMethodNotAllowed();
+                response.send();
+            }
+
+            @Override
+            public boolean isMatch(Request request) {
+                super.isMatch(request);
+                return request.getMethod().equals("PUT")
+                        && request.getUrl().equals("/file1");
+            }
+        });
+
+        routes.add(new BaseRoute() {
+            @Override
+            public void handle() throws IOException {
+                response.setMethodNotAllowed();
+                response.send();
+            }
+
+            @Override
+            public boolean isMatch(Request request) {
+                super.isMatch(request);
+                return request.getMethod().equals("POST")
+                        && request.getUrl().equals("/text-file.txt");
+            }
+        });
     }
 }
