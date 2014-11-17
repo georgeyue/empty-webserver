@@ -1,4 +1,7 @@
-package com.swift;
+package com.swift.router;
+
+import com.swift.Request;
+import com.swift.router.Route;
 
 public class StaticRoute implements Route {
     private Request request;

@@ -1,4 +1,4 @@
-package com.swift;
+package com.swift.router;
 
 public interface Route {
     void handle();

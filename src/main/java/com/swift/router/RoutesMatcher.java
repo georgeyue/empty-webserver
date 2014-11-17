@@ -1,4 +1,4 @@
-package com.swift;
+package com.swift.router;
 
 import java.util.ArrayList;
 import java.util.List;

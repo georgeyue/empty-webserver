@@ -1,5 +1,8 @@
-package com.swift;
+package com.swift.route;
 
+import com.swift.FakeRequest;
+import com.swift.router.Route;
+import com.swift.router.StaticRoute;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -24,4 +27,5 @@ public class StaticRouteTest {
 
         assertTrue(route.isMatch());
     }
+
 }
