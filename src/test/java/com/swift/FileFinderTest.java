@@ -18,8 +18,10 @@ public class FileFinderTest {
 
 	@Test
 	public void shouldNotFindFileThatExistsWhenNotPresent() {
+		File testRootDirectory = new File(FileFinder.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+		String rootDirectory = testRootDirectory.getParentFile().getParentFile().toString() + "/src/test/java/com/swift";
 		String fileName = "foobaz";
-		finder.setRootDirectory("/");
+		finder.setRootDirectory(rootDirectory);
 		finder.setFile(fileName);
 		assertFalse(finder.exists());
 	}
