@@ -12,6 +12,7 @@ public class RequestHandlerTest {
     @Before
     public void setUp() {
         routes = new SwiftRoutesMatcher();
+        routes.constructRoutes();
     }
 	@Test
 	public void shouldNotFindFilePathWithNoBaseDirectory() throws Exception {

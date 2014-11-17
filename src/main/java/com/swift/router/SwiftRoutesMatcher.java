@@ -40,6 +40,19 @@ public class SwiftRoutesMatcher extends RoutesMatcher {
             }
         });
 
+        routes.add(new BaseRoute() {
+            @Override
+            public void handle() throws IOException {
+                response.ok();
+            }
+
+            @Override
+            public boolean isMatch(Request request) {
+                super.isMatch(request);
+                return request.getMethod().equals("POST")
+                        && request.getUrl().equals("/form");
+            }
+        });
 
 
     }
