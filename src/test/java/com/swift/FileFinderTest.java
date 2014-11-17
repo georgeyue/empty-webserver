@@ -2,6 +2,8 @@ package com.swift;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
+
 import org.junit.Test;
 
 public class FileFinderTest {
@@ -25,9 +27,10 @@ public class FileFinderTest {
 	@Test
 	public void shouldFindFileThatExists() throws Exception {
 		String fileName = "foobar";
+		String rootDirectory = new File(FileFinder.class.getProtectionDomain().getCodeSource().getLocation().getPath()).toString();
 		FileFinder finder = new FileFinder();
 		finder.setFile(fileName);
-		finder.setRootDirectory("/Users/hothboy/Documents/tm_work/java_training/workspace/empty-webserver/src/test/java/com/swift");
+		finder.setRootDirectory(rootDirectory);
 		assertTrue(finder.exists());
 	}
 }
