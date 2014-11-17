@@ -40,8 +40,8 @@ public class RequestHandler {
         		response.setResponseBody(directoryListing());
         	}
             response.ok();
-//        } else if (request.getMethod().equals("POST") && url.equals("/form")) {
-//            response.ok();
+        } else if (request.getMethod().equals("POST") && url.equals("/form")) {
+            response.ok();
         }else if (request.getMethod().equals("PUT") && url.equals("/form")) {
             response.ok();
         }else if (request.getMethod().equals("PUT") && url.equals("/file1")) {

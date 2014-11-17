@@ -30,6 +30,9 @@ public class Response {
         statusCode = i;
 
         switch(statusCode) {
+            case 222:
+                out.println("HTTP/1.1 222 OK with warnings");
+                break;
             case 404:
                 out.println("HTTP/1.1 404 Not Found");
                 break;
@@ -55,7 +58,7 @@ public class Response {
 
     public void send() throws IOException {
         if (!responseLineSent)
-            sendResponseLine(200);
+            sendResponseLine(222);
         socket.close();
     }
 

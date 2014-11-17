@@ -68,7 +68,7 @@ public class ResponseTest {
         Response response = new Response(socket);
         response.send();
 
-        assertEquals(String.format("HTTP/1.1 200 OK%n"), socket.getText());
+        assertEquals(String.format("HTTP/1.1 222 OK with warnings%n"), socket.getText());
     }
 
 }
