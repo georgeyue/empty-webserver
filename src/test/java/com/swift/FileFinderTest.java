@@ -30,6 +30,7 @@ public class FileFinderTest {
 		String rootDirectory = new File(FileFinder.class.getProtectionDomain().getCodeSource().getLocation().getPath()).toString();
 		FileFinder finder = new FileFinder();
 		finder.setFile(fileName);
+		System.out.println(rootDirectory);
 		finder.setRootDirectory(rootDirectory);
 		assertTrue(finder.exists());
 	}
