@@ -34,9 +34,7 @@ public class RequestHandler {
         }
 
         // TODO this needs to be extracted out to have routes handle this
-        if (request.getMethod().equals("GET") && url.equals("/foobar")) {
-            response.setNotFoundHeader();
-        } else if (request.getMethod().equals("GET") && url.equals("/")) {
+        if (request.getMethod().equals("GET") && url.equals("/")) {
         	if(fileExists()) {
                 response.setContentType("text/html");
         		response.setResponseBody(directoryListing());

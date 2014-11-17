@@ -1,5 +1,6 @@
 package com.swift;
 import com.swift.router.RoutesMatcher;
+import com.swift.router.SwiftRoutesMatcher;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -10,7 +11,7 @@ public class RequestHandlerTest {
 
     @Before
     public void setUp() {
-        routes = new RoutesMatcher();
+        routes = new SwiftRoutesMatcher();
     }
 	@Test
 	public void shouldNotFindFilePathWithNoBaseDirectory() throws Exception {

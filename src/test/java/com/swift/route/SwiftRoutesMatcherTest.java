@@ -1,20 +1,19 @@
 package com.swift.route;
 
 import com.swift.FakeRequest;
-import com.swift.Request;
-import com.swift.router.StaticRoute;
 import com.swift.router.RoutesMatcher;
-import javafx.scene.paint.Material;
+import com.swift.router.StaticRoute;
+import com.swift.router.SwiftRoutesMatcher;
 import org.junit.Test;
 
 import java.io.IOException;
 
 import static org.junit.Assert.*;
 
-public class RoutesMatcherTest {
+public class SwiftRoutesMatcherTest {
     @Test
     public void shouldAddRoutes() throws IOException {
-        RoutesMatcher matcher = new RoutesMatcher();
+        RoutesMatcher matcher = new SwiftRoutesMatcher();
         assertEquals(0, matcher.getRoutesCount());
         matcher.add(new StaticRoute());
         assertEquals(1, matcher.getRoutesCount());
@@ -22,7 +21,7 @@ public class RoutesMatcherTest {
 
     @Test
     public void addTwoRoutes() {
-        RoutesMatcher matcher = new RoutesMatcher();
+        RoutesMatcher matcher = new SwiftRoutesMatcher();
         matcher.add(new StaticRoute());
         matcher.add(new StaticRoute());
         assertEquals(2, matcher.getRoutesCount());
@@ -33,7 +32,7 @@ public class RoutesMatcherTest {
         FakeRequest request = new FakeRequest();
         request.setUrl("/banana");
         TestRoute testroute = new TestRoute("^/banana$");
-        RoutesMatcher matcher = new RoutesMatcher();
+        RoutesMatcher matcher = new SwiftRoutesMatcher();
         matcher.add(testroute);
 
         matcher.processRequest(request);
@@ -45,7 +44,7 @@ public class RoutesMatcherTest {
         FakeRequest request = new FakeRequest();
         request.setUrl("/banana");
         TestRoute testroute = new TestRoute("^/nothingness$");
-        RoutesMatcher matcher = new RoutesMatcher();
+        RoutesMatcher matcher = new SwiftRoutesMatcher();
         matcher.add(testroute);
 
         matcher.processRequest(request);
@@ -57,10 +56,17 @@ public class RoutesMatcherTest {
         FakeRequest request = new FakeRequest();
         request.setUrl("/banana");
         TestRoute testroute = new TestRoute("^/banana$");
-        RoutesMatcher matcher = new RoutesMatcher();
+        RoutesMatcher matcher = new SwiftRoutesMatcher();
         matcher.add(testroute);
 
         matcher.processRequest(request);
         assertTrue(matcher.requestIsProccessed());
+    }
+
+    @Test
+    public void itConstructsRoutes() {
+        RoutesMatcher matcher = new SwiftRoutesMatcher();
+        matcher.constructRoutes();
+        assertEquals(2, matcher.getRoutesCount());
     }
 }

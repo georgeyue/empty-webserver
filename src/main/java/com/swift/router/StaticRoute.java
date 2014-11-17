@@ -1,13 +1,12 @@
 package com.swift.router;
 
 import com.swift.Request;
-import com.swift.router.Route;
 
-public class StaticRoute implements Route {
+public class StaticRoute extends BaseRoute {
     private String urlRegex;
-    private Request request;
 
     public StaticRoute() {
+        super();
         urlRegex = "^/.*";
     }
 
@@ -15,7 +14,7 @@ public class StaticRoute implements Route {
     }
 
     public boolean isMatch(Request request) {
-        this.request = request;
+        super.isMatch(request);
         return request.getUrl().matches(urlRegex);
     }
 }

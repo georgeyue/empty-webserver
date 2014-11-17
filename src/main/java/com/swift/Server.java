@@ -2,6 +2,7 @@ package com.swift;
 
 import com.swift.router.Route;
 import com.swift.router.RoutesMatcher;
+import com.swift.router.SwiftRoutesMatcher;
 
 import java.io.*;
 import java.net.Socket;
@@ -51,23 +52,8 @@ public class Server {
         while(!isStopped() && !serverSocket.isClosed()) {
             socket = serverSocket.accept();
             Request request = new Request(socket);
-            RoutesMatcher routes = new RoutesMatcher();
-            routes.add(new Route() {
-                private Request request;
-                @Override
-                public void handle() throws IOException {
-                    Response response = request.getResponse();
-                    response.sendHeader("Allow", "GET,HEAD,POST,OPTIONS,PUT");
-                    response.send();
-                }
-
-                @Override
-                public boolean isMatch(Request req) {
-                    request = req;
-                    return req.getUrl().equals("/method_options")
-                            && req.getMethod().equals("OPTIONS");
-                }
-            });
+            RoutesMatcher routes = new SwiftRoutesMatcher();
+            routes.constructRoutes();
 
             RequestHandler handler = new RequestHandler(request, routes);
             handler.process();

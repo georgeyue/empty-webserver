@@ -1,12 +1,13 @@
 package com.swift.router;
 
 import com.swift.Request;
+import com.swift.Response;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RoutesMatcher {
+public abstract class RoutesMatcher {
     public List<Route> routes = new ArrayList<Route>();
     private boolean requestIsProccessed;
 
@@ -31,4 +32,6 @@ public class RoutesMatcher {
     public boolean requestIsProccessed() {
         return requestIsProccessed;
     }
+
+    public abstract void constructRoutes();
 }

@@ -17,8 +17,8 @@ public class TestRoute implements Route {
     }
 
     @Override
-    public boolean isMatch(Request req) {
-        return req.getUrl().matches(urlToHandle);
+    public boolean isMatch(Request request) {
+        return request.getUrl().matches(urlToHandle);
     }
 
     public boolean isRun() {

@@ -6,5 +6,5 @@ import java.io.IOException;
 
 public interface Route {
     void handle() throws IOException;
-    boolean isMatch(Request req);
+    boolean isMatch(Request request);
 }
