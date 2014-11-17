@@ -5,12 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import com.swift.FakeRequest;
-import com.swift.FakeSocket;
-import com.swift.Request;
-import com.swift.RequestHandler;
 import com.swift.router.DirectoryRoute;
-import com.swift.router.Route;
-import com.swift.router.StaticRoute;
 
 public class DirectoryRouteTest {
 

@@ -3,11 +3,9 @@ package com.swift;
 import com.swift.router.RoutesMatcher;
 
 import java.io.IOException;
-import java.nio.file.DirectoryStream;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 
 public class RequestHandler {
 
@@ -25,9 +23,7 @@ public class RequestHandler {
     }
 
     public void process() throws IOException {
-        Response  response = request.getResponse();
-        String url = request.getUrl();
-
+        Response response = request.getResponse();
         routes.processRequest(request);
         if (routes.requestIsProccessed()) {
             return;
