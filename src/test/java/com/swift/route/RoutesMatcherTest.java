@@ -51,4 +51,16 @@ public class RoutesMatcherTest {
         matcher.processRequest(request);
         assertFalse(testroute.isRun());
     }
+
+    @Test
+    public void shouldIndicateRequestIsProcessed() throws IOException {
+        FakeRequest request = new FakeRequest();
+        request.setUrl("/banana");
+        TestRoute testroute = new TestRoute("^/banana$");
+        RoutesMatcher matcher = new RoutesMatcher();
+        matcher.add(testroute);
+
+        matcher.processRequest(request);
+        assertTrue(matcher.requestIsProccessed());
+    }
 }

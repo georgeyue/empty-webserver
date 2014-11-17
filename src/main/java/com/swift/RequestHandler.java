@@ -1,5 +1,7 @@
 package com.swift;
 
+import com.swift.router.RoutesMatcher;
+
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.FileSystems;
@@ -11,24 +13,28 @@ public class RequestHandler {
 
     private Request request;
     private String rootDirectory;
+    private RoutesMatcher routes;
 
 //    TODO let's add routes to define behaviour based on routes
 //    private Routes routes;
 
-    public RequestHandler(Request request) {
+    public RequestHandler(Request request, RoutesMatcher routes) {
         this.request = request;
         this.rootDirectory = Server.getDirectory();
+        this.routes = routes;
     }
 
     public void process() throws IOException {
         Response  response = request.getResponse();
         String url = request.getUrl();
+
+        routes.processRequest(request);
+        if (routes.requestIsProccessed()) {
+            return;
+        }
+
         // TODO this needs to be extracted out to have routes handle this
-        if (url.equals("/method_options")) {
-            if (request.getMethod().equals("OPTIONS"))
-                response.sendHeader("Allow", "GET,HEAD,POST,OPTIONS,PUT");
-            response.send();
-        } else if (request.getMethod().equals("GET") && url.equals("/foobar")) {
+        if (request.getMethod().equals("GET") && url.equals("/foobar")) {
             response.setNotFoundHeader();
         } else if (request.getMethod().equals("GET") && url.equals("/")) {
         	if(fileExists()) {
