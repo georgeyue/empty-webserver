@@ -23,7 +23,7 @@ public class StaticRouteTest {
         FakeRequest req = new FakeRequest();
         req.setUrl("/foobar");
 
-        Route route = new StaticRoute(new FakeRequest());
+        Route route = new StaticRoute(req);
 
         assertTrue(route.isMatch());
     }
