@@ -29,16 +29,17 @@ public class SwiftRoutesMatcher extends RoutesMatcher {
             @Override
             public void handle() throws IOException {
                 response.setNotFoundHeader();
+                response.send();
             }
 
             @Override
             public boolean isMatch(Request request) {
                 super.isMatch(request);
-                response = request.getResponse();
                 return request.getUrl().equals("/foobar")
                         && this.request.getMethod().equals("GET");
             }
         });
+
 
 
     }
