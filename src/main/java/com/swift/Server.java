@@ -1,8 +1,6 @@
 package com.swift;
 
-import com.swift.router.Route;
-import com.swift.router.RoutesMatcher;
-import com.swift.router.SwiftRoutesMatcher;
+import com.swift.router.*;
 
 import java.io.*;
 import java.net.Socket;
@@ -53,6 +51,7 @@ public class Server {
             socket = serverSocket.accept();
             Request request = new Request(socket);
             RoutesMatcher routes = new SwiftRoutesMatcher();
+            routes.add(new DirectoryRoute());
             routes.constructRoutes();
 
             RequestHandler handler = new RequestHandler(request, routes);

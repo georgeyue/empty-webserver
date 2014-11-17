@@ -24,15 +24,6 @@ public class RequestHandlerTest {
 	}
 	
 	@Test
-	public void canListDirectories() throws Exception {
-        FakeSocket socket = new FakeSocket();
-        socket.setText("GET / HTTP/1.1");
-		Request request = new Request(socket);
-		requestHandler = new RequestHandler(request, routes);
-		assertNotNull(requestHandler.directoryListing());
-	}
-	
-	@Test
 	public void shouldSimplePost() throws Exception {
         FakeSocket socket = new FakeSocket();
         socket.setText("POST /form My=data");

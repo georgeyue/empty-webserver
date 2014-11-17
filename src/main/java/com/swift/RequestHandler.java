@@ -34,13 +34,6 @@ public class RequestHandler {
         }
 
         // TODO this needs to be extracted out to have routes handle this
-        if (request.getMethod().equals("GET") && url.equals("/")) {
-        	if(fileExists()) {
-                response.setContentType("text/html");
-        		response.setResponseBody(directoryListing());
-        	}
-            response.ok();
-        }
         response.send();
     }
     
@@ -48,21 +41,5 @@ public class RequestHandler {
     	String fileToCheck = this.request.getUrl();
     	Path pathToCheck = FileSystems.getDefault().getPath(rootDirectory, fileToCheck);
 		return Files.exists(pathToCheck);
-    }
-    
-    public String directoryListing() {
-    	String directoryList = "<html><head><title>Directory</title></head><body>";
-    	Path directory = FileSystems.getDefault().getPath(rootDirectory);
-    	try {
-			DirectoryStream<Path> stream = Files.newDirectoryStream(directory);
-			for(Path file : stream) {
-				if(!file.toFile().isHidden())
-					directoryList += "<a href=\"/" + file.getFileName().toString() + "\">" + file.getFileName().toString() + "</a><br/>";
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-    	directoryList += "</body></html>";
-    	return directoryList;
     }
 }
