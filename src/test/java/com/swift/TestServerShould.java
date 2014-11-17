@@ -79,6 +79,6 @@ public class TestServerShould {
     public void shouldSetDirectory() {
         String dir = "/a/b/c/d/e";
         myServer.setDirectory(dir);
-        assertEquals(myServer.getDirectory(), dir);
+        assertEquals(Server.getDirectory(), dir);
     }
 }
