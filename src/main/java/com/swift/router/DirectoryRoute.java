@@ -14,13 +14,13 @@ public class DirectoryRoute extends BaseRoute {
 	public void handle() throws IOException {
 		response.setContentType("text/html");
 		response.setResponseBody(directoryListing());
+		response.ok();
 		response.send();
 	}
 	
 	@Override
 	public boolean isMatch(Request request) {
 		super.isMatch(request);
-		System.out.println(request.getUrl().equals("/"));
 		return request.getMethod().equals("GET") 
 				&& request.getUrl().equals("/");
 	}

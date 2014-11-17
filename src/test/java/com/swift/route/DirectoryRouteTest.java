@@ -21,8 +21,6 @@ public class DirectoryRouteTest {
 
         DirectoryRoute route = new DirectoryRoute();
 
-        System.out.println(route.directoryListing());
-        
 		assertNotNull(route.directoryListing());
 	}
 

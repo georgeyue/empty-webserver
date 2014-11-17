@@ -40,6 +40,8 @@ public class Response {
             	out.println("HTTP/1.1 405 Method Not Allowed");
             	break;
             case 200:
+            	out.println("HTTP/1.1 200 OK");
+            	break;
             default:
                 out.println("HTTP/1.1 200 OK");
               
