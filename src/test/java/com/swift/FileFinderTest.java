@@ -4,14 +4,21 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 
+import org.junit.Before;
 import org.junit.Test;
 
 public class FileFinderTest {
+	
+	FileFinder finder;
+	
+	@Before
+	public void setUp() {
+		finder = new FileFinder();
+	}
 
 	@Test
 	public void shouldNotFindFileThatExistsWhenNotPresent() {
-		String fileName = "foobar";
-		FileFinder finder = new FileFinder();
+		String fileName = "foobaz";
 		finder.setRootDirectory("/");
 		finder.setFile(fileName);
 		assertFalse(finder.exists());
@@ -19,7 +26,6 @@ public class FileFinderTest {
 
 	@Test
 	public void shouldReturnRootDirectoryAsString() throws Exception {
-		FileFinder finder = new FileFinder();
 		finder.setRootDirectory("/");
 		assertEquals("/", finder.getRootDirectory());
 	}
@@ -27,10 +33,9 @@ public class FileFinderTest {
 	@Test
 	public void shouldFindFileThatExists() throws Exception {
 		String fileName = "foobar";
-		String rootDirectory = new File(FileFinder.class.getProtectionDomain().getCodeSource().getLocation().getPath()).toString();
-		FileFinder finder = new FileFinder();
+		File testRootDirectory = new File(FileFinder.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+		String rootDirectory = testRootDirectory.getParentFile().getParentFile().toString() + "/src/test/java/com/swift";
 		finder.setFile(fileName);
-		System.out.println(rootDirectory);
 		finder.setRootDirectory(rootDirectory);
 		assertTrue(finder.exists());
 	}
