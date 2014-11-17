@@ -9,8 +9,8 @@ public class FileFinder {
 	private String theFile;
 	
 	public FileFinder() {
-		this.setRootDirectory(null);
 		this.theFile = null;
+		this.rootDirectory = null;
 	}
 
 	public boolean exists() {
