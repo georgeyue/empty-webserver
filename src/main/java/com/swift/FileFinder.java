@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 
 public class FileFinder {
 	private String rootDirectory;
@@ -37,14 +36,11 @@ public class FileFinder {
 		this.theFile = fileName;
 	}
 
-	public byte[] getFileContents() {
+	public byte[] getFileContents() throws IOException {
 		Path pathToFile = this.getAbsoluteFilePath();
 		byte[] fileContents = null;
-		try {
-			fileContents = Files.readAllBytes(pathToFile);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		fileContents = Files.readAllBytes(pathToFile);
+
 		return fileContents;
 	}
 }

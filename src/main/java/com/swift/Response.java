@@ -65,7 +65,7 @@ public class Response {
         if(getContentType() != null)
             out.println("Content-Type: " + getContentType());
         if(getResponseBody() != null)
-            out.println(String.format("%n") + getResponseBody());
+            out.print(String.format("%n") + getResponseBody());
         out.flush();
         socket.close();
     }
