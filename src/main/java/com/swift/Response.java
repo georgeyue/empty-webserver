@@ -30,9 +30,6 @@ public class Response {
         statusCode = i;
 
         switch(statusCode) {
-            case 222:
-                out.println("HTTP/1.1 222 OK with warnings");
-                break;
             case 404:
                 out.println("HTTP/1.1 404 Not Found");
                 break;
@@ -58,23 +55,27 @@ public class Response {
         return statusCode;
     }
 
+    public void setStatusCode(int statusCode) {
+        this.statusCode = statusCode;
+    }
+
     public void send() throws IOException {
         if (!responseLineSent)
             sendResponseLine(222);
+        if(getContentType() != null)
+            out.println("Content-Type: " + getContentType());
+        if(getResponseBody() != null)
+            out.println(String.format("%n") + getResponseBody());
+        out.flush();
         socket.close();
     }
 
-    public void ok() throws IOException {
-        sendResponseLine(200);
-
-        if(getContentType() != null)
-        	out.println("Content-Type: " + getContentType());
-        if(getResponseBody() != null)
-        	out.println(String.format("%n") + getResponseBody());
-        out.flush();
+    public void send(int statusCode) throws IOException {
+        sendResponseLine(statusCode);
+        send();
     }
 
-	public String getContentType() {
+    public String getContentType() {
 		return contentType;
 	}
 
@@ -92,7 +93,7 @@ public class Response {
 
     public void sendHeader(String key, String value) throws IOException {
         if (!responseLineSent)
-            sendResponseLine(200);
+            sendResponseLine(statusCode);
 
         out.println(key + ": " + value);
         out.flush();

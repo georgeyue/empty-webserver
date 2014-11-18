@@ -43,8 +43,7 @@ public class SwiftRoutesMatcher extends RoutesMatcher {
         routes.add(new BaseRoute() {
             @Override
             public void handle() throws IOException {
-                response.ok();
-                response.send();
+                response.send(200);
             }
 
             @Override
@@ -59,8 +58,7 @@ public class SwiftRoutesMatcher extends RoutesMatcher {
         routes.add(new BaseRoute() {
             @Override
             public void handle() throws IOException {
-                response.ok();
-                response.send();
+                response.send(200);
             }
 
             @Override

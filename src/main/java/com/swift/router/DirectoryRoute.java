@@ -14,8 +14,7 @@ public class DirectoryRoute extends BaseRoute {
 	public void handle() throws IOException {
 		response.setContentType("text/html");
 		response.setResponseBody(directoryListing());
-		response.ok();
-		response.send();
+		response.send(200);
 	}
 	
 	@Override

@@ -22,7 +22,7 @@ public class ResponseTest {
     public void shouldResponseWithOk() throws IOException {
         FakeSocket socket = new FakeSocket();
         Response response = new Response(socket);
-        response.ok();
+        response.sendResponseLine(200);
         response.send();
         assertEquals(String.format("HTTP/1.1 200 OK%n"), socket.getText());
     }
@@ -32,7 +32,7 @@ public class ResponseTest {
         FakeSocket socket = new FakeSocket();
         Response response = new Response(socket);
         response.setContentType("text/directory");
-        response.ok();
+        response.sendResponseLine(200);
         response.send();
 
         assertEquals(String.format("HTTP/1.1 200 OK%nContent-Type: text/directory%n"), socket.getText());
@@ -44,7 +44,7 @@ public class ResponseTest {
         Response response = new Response(socket);
         response.setContentType("text/directory");
         response.setResponseBody("this is my body");
-        response.ok();
+        response.sendResponseLine(200);
         response.send();
 
         assertEquals(String.format("HTTP/1.1 200 OK%nContent-Type: text/directory%n%nthis is my body%n"), socket.getText());
@@ -55,7 +55,6 @@ public class ResponseTest {
     public void shouldSetHeader() throws IOException {
         FakeSocket socket = new FakeSocket();
         Response response = new Response(socket);
-        response.ok();
         response.sendHeader("Allowed", "GET,HEAD");
         response.send();
 
@@ -68,7 +67,7 @@ public class ResponseTest {
         Response response = new Response(socket);
         response.send();
 
-        assertEquals(String.format("HTTP/1.1 222 OK with warnings%n"), socket.getText());
+        assertEquals(String.format("HTTP/1.1 200 OK%n"), socket.getText());
     }
 
 }
