@@ -69,4 +69,17 @@ public class SwiftRoutesMatcherTest {
         matcher.constructRoutes();
         assertTrue(matcher.getRoutesCount() > 1);
     }
+
+    @Test
+    public void returnRedirectHeader() throws IOException {
+        RoutesMatcher routes = new SwiftRoutesMatcher();
+        routes.add(new RedirectRoute());
+
+        FakeRequest request = new FakeRequest();
+        request.setRequestLine("GET /redirect HTTP/1.1");
+
+        routes.processRequest(request);
+
+        assertEquals(302, request.getResponse().getStatusCode());
+    }
 }

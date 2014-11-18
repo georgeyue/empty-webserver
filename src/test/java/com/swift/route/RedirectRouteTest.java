@@ -1,6 +1,7 @@
 package com.swift.route;
 
 import com.swift.FakeRequest;
+import com.swift.FakeSocket;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -19,6 +20,18 @@ public class RedirectRouteTest {
         assertTrue(route.isMatch(request));
     }
 
+    @Test
+    public void testResponseLineIsARedirect() throws IOException {
+        RedirectRoute route = new RedirectRoute();
+        FakeSocket socket = new FakeSocket();
+        FakeRequest request = new FakeRequest(socket);
+
+        request.setRequestLine("GET /redirect HTTP/1.1");
+        route.isMatch(request);
+        route.handle();
+
+        assertEquals(String.format("HTTP/1.1 302 Found%nLocation: http://localhost:5000/"), socket.getText());
+    }
     @Test
     public void notRespondToOtherRequests() throws IOException {
         RedirectRoute route = new RedirectRoute();

@@ -9,7 +9,9 @@ import java.io.IOException;
 public class RedirectRoute extends BaseRoute {
     @Override
     public void handle() throws IOException {
-        
+        response.setStatusCode(302);
+        response.sendHeader("Location", request.getHeader("host"));
+        response.send();
     }
 
     @Override
