@@ -104,11 +104,15 @@ public class SwiftRoutesMatcher extends RoutesMatcher {
             @Override
             public void handle() throws IOException {
             	if(!authenticateUser()) {
+            		//response.setResponseBody("GET /logs HTTP/1.1");
             		response.setUnauthorizedUser();
+            		response.send();
            // 		System.out.println(response.getStatusCode());
-            		response.setResponseBody("GET /log HTTP/1.1");
+            		//response.setResponseBody("GET /logs HTTP/1.1");
             		}  else {
-            				response.send();
+            			//response.setResponseBody("GET /logs HTTP/1.1");
+            			response.setAuthorizedUser();
+            			response.send();
             					}
             	}
 
