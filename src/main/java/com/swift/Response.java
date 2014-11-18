@@ -49,6 +49,9 @@ public class Response {
             case 405:
             	out.println("HTTP/1.1 405 Method Not Allowed");
             	break;
+            case 302:
+                out.println("HTTP/1.1 302 Found");
+                break;
             case 200:
             	out.println("HTTP/1.1 200 OK");
             	break;
