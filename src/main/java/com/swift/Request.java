@@ -20,6 +20,7 @@ public class Request {
     protected Map<String, String> queryParams;
     private String rawQueryParams;
     private String pathname;
+    private Map<String, String> header;
 
     public void setUrl(String url) {
         this.url = url;
@@ -35,17 +36,11 @@ public class Request {
     }
 
     public String getRequestLine() {
-        BufferedReader in;
-        if (requestLine == null) {
-            try {
-                in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                requestLine = in.readLine();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
+        if (requestLine == null)
+            parseRequest();
         return requestLine;
     }
+
 
     public String getProtocol() {
         if (protocol == null) {
@@ -103,7 +98,6 @@ public class Request {
         return pathname;
     }
 
-
     public Map<String, String> getQueryParams() {
         if (queryParams == null) {
             queryParams = new HashMap<String, String>();
@@ -135,5 +129,61 @@ public class Request {
             throw new RuntimeException(e);
         }
         return ret;
+    }
+
+
+    public void parseRequest() {
+        BufferedReader in = null;
+        String LF = System.getProperty("line.separator");
+        String line = null;
+        boolean hasCRLF = false;
+        if (header == null)
+            header = new HashMap<String, String>();
+
+        try {
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+            line = in.readLine();
+            while(line != null && !line.isEmpty()) {
+                if (requestLine == null)
+                    requestLine = line;
+                else {
+                    if (line.equals(LF)) {
+                        hasCRLF = true;
+                        continue;
+                    }
+
+                    if (hasCRLF) {
+                    } else {
+                        parseRequestHeader(line);
+                    }
+                }
+                line = in.readLine();
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (in != null) try {
+                in.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public String getHeader(String key) {
+        if (header == null)
+            parseRequest();
+        return header.get(key.toLowerCase());
+    }
+
+    public void parseRequestHeader(String line) {
+        if (header == null) header = new HashMap<String, String>();
+
+        String[] tokens = line.split(": ");
+        if (tokens.length == 2) {
+            header.put(tokens[0].toLowerCase(), tokens[1]);
+        }
     }
 }

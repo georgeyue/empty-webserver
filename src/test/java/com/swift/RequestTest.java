@@ -84,6 +84,58 @@ public class RequestTest {
     }
 
     @Test
+    public void parseRequestHeader() throws IOException {
+        String line = "key: value";
+        FakeRequest request = new FakeRequest();
+        request.parseRequestHeader(line);
+        assertEquals("value", request.getHeader("key"));
+    }
+
+    @Test
+    public void parseRequestForRequestLine() throws IOException {
+        String LS = System.getProperty("line.separator");
+        FakeSocket socket = new FakeSocket();
+        socket.setText("GET /apples HTTP/1.1" + LS
+                        + "Location: http://localhost" + LS
+                        + LS
+                        + "Some body stuff\r\n"
+        );
+        FakeRequest req = new FakeRequest(socket);
+
+        assertEquals("/apples", req.getPathname());
+        assertEquals("GET", req.getMethod());
+        assertEquals("GET /apples HTTP/1.1", req.getRequestLine());
+    }
+
+    @Test
+    public void testParseRequest() throws IOException {
+        String LS = System.getProperty("line.separator");
+        FakeSocket socket = new FakeSocket();
+        socket.setText("GET /apples HTTP/1.1");
+//                        + LS
+//                        + "Location: http://localhost" + LS
+//                        + LS
+//                        + "Some body stuff\r\n"
+//        );
+        FakeRequest req = new FakeRequest(socket);
+
+        req.parseRequest();
+        assertEquals("GET", req.getMethod());
+    }
+
+//    @Test
+//    TODO
+    public void parseRequestForHeader() {
+        assertTrue(false);
+    }
+
+//    @Test
+//    TODO
+    public void parseRequestForBody() {
+        assertTrue(false);
+    }
+
+    @Test
     public void shouldExtractQueryParam() throws IOException {
         String line = "GET /parameters?variable_1=Operators%20%3C%2C%20%3E%2C%20%3D%2C%20!%3D%3B%20%2B%2C%20-%2C%20*%2C%20%26%2C%20%40%2C%20%23%2C%20%24%2C%20%5B%2C%20%5D%3A%20%22is%20that%20all%22%3F&variable_2=stuff HTTP";
         FakeRequest req = new FakeRequest();
