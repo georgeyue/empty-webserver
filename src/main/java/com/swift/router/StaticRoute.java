@@ -21,8 +21,8 @@ public class StaticRoute extends BaseRoute {
     	finder.setRootDirectory(Server.getDirectory());
     	finder.setFile(urlParts[urlParts.length-1]);
     	if(finder.exists()) {
-    		response.setContentType("text/plain");
-    		response.setResponseBody(new String(finder.getFileContents()));
+    		response.setContentType(finder.getMimeType());
+    		response.setResponseBody(finder.getFileContentsAsString());
     		response.send(200);
     	}
     	else {
