@@ -21,4 +21,15 @@ public abstract class BaseRoute implements Route {
         this.response = request.getResponse();
         return false;
     }
+    
+    protected boolean authenticateUser(){
+    	if( "admin".equals(request.getUsername()) && "hunter2".equals(request.getPassword())) {
+    		return true;
+    	}
+    	else {
+    		return false;
+    	}
+    }
 }
+
+

@@ -26,6 +26,14 @@ public class ResponseTest {
         response.send();
         assertEquals(String.format("HTTP/1.1 200 OK%n"), socket.getText());
     }
+    @Test
+    public void shouldResponseWith401() throws IOException {
+        FakeSocket socket = new FakeSocket();
+        Response response = new Response(socket);
+        response.sendResponseLine(401);
+        response.send();
+        assertEquals(String.format("GET /log HTTP/1.1 Authentication required%n"), socket.getText());
+    }
     
     @Test
 	public void shouldListDirectory() throws Exception {
@@ -34,11 +42,10 @@ public class ResponseTest {
         response.setContentType("text/directory");
         response.sendResponseLine(200);
         response.send();
-
         assertEquals(String.format("HTTP/1.1 200 OK%nContent-Type: text/directory%n"), socket.getText());
 	}
     
-    @Test
+      @Test
 	public void shouldListDirectoryContents() throws Exception {
         FakeSocket socket = new FakeSocket();
         Response response = new Response(socket);

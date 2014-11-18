@@ -99,5 +99,33 @@ public class SwiftRoutesMatcher extends RoutesMatcher {
                         && request.getUrl().equals("/text-file.txt");
             }
         });
+        
+        routes.add(new BaseRoute() {
+            @Override
+            public void handle() throws IOException {
+            	if(!authenticateUser()) {
+            		response.setUnauthorizedUser();
+            		System.out.println(response.getStatusCode());
+            		response.setResponseBody("GET /log HTTP/1.1 Authentication required");
+            		}  else {
+            				response.send();
+            					}
+            	}
+
+            @Override
+            public boolean isMatch(Request request) {
+                super.isMatch(request);
+              System.out.println(request.getMethod() +  request.getUrl());
+               System.out.println(request.getMethod().equals("GET")
+                        && request.getUrl().equals("/logs"));
+                return request.getMethod().equals("GET")
+                        && request.getUrl().equals("/logs");
+            }
+        });
     }
+    
+    
+    
+    
+ 
 }
