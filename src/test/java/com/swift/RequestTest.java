@@ -51,6 +51,13 @@ public class RequestTest {
         assertEquals("HTTP/1.1", req.getProtocol());
     }
 
+    @Test
+    public void shouldGetPathname() throws IOException {
+        String line = "GET /apple?name=bean%20stalk HTTP/1.1";
+        FakeRequest req = new FakeRequest();
+        req.setRequestLine(line);
+        assertEquals("/apple", req.getPathname());
+    }
 
     @Test
     public void returnRequestLine() throws IOException {

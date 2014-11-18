@@ -19,6 +19,7 @@ public class Request {
     private String[] tokenizedRequestLine;
     protected Map<String, String> queryParams;
     private String rawQueryParams;
+    private String pathname;
 
     public void setUrl(String url) {
         this.url = url;
@@ -89,7 +90,7 @@ public class Request {
         if (url == null) {
             String[] tokens = getTokenizedRequestLine();
             try {
-                url = tokens.length == 3 ? URLDecoder.decode(tokens[1], "UTF-8") : "";
+                url = tokens.length > 1 ? URLDecoder.decode(tokens[1], "UTF-8") : "";
             } catch (UnsupportedEncodingException e) {
                 throw new RuntimeException(e);
             }
@@ -97,8 +98,9 @@ public class Request {
         return url;
     }
 
-    private String getPathname() {
-        return "";
+    public String getPathname() {
+        getQueryParams();
+        return pathname;
     }
 
 
@@ -106,10 +108,10 @@ public class Request {
         if (queryParams == null) {
             queryParams = new HashMap<String, String>();
             String[] tokens = getTokenizedRequestLine();
-            if (tokens.length >= 3) {
-                rawQueryParams = tokens[1].split("\\?").length > 1
-                        ? tokens[1].split("\\?")[1]
-                        : "";
+            if (tokens.length > 1) {
+                String[] tmp = tokens[1].split("\\?");
+                pathname = tmp.length > 0 ? decode(tmp[0]) : "";
+                rawQueryParams = tmp.length > 1 ? tmp[1] : "";
 
                 String[] pairs = rawQueryParams.split("&");
                 for(String pair : pairs) {
