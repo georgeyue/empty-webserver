@@ -24,6 +24,9 @@ public abstract class RoutesMatcher {
                 route.handle();
                 break;
             }
+            else {
+            	requestIsProccessed = false;
+            }
         }
     }
 

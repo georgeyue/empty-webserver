@@ -36,10 +36,6 @@ public class Server {
     public httpServerSocket getSocket() {
         return serverSocket;
     }
-
-    public boolean isClosed() {
-        return serverSocket.isClosed();
-    }
     
     public boolean isStopped() {
     	return this.stopped;
