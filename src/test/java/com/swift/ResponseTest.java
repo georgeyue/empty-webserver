@@ -32,7 +32,8 @@ public class ResponseTest {
         Response response = new Response(socket);
         response.sendResponseLine(401);
         response.send();
-        assertEquals(String.format("GET /log HTTP/1.1 Authentication required%n"), socket.getText());
+       // assertEquals(String.format("GET /log HTTP/1.1 Authentication required%n"), socket.getText());
+        assertEquals(String.format("HTTP/1.1 401 Error%n"), socket.getText());
     }
     
     @Test

@@ -42,8 +42,8 @@ public class Response {
             	out.println("HTTP/1.1 405 Method Not Allowed");
             	break;
             case 401:
-            	//out.println("HTTP/1.1 Error 401");
-            	out.println("GET /log HTTP/1.1 Authentication required");
+            	out.println("HTTP/1.1 401 Error");
+            //	out.println("GET /log HTTP/1.1 Authentication required");
             	break;
             case 200:
             	out.println("HTTP/1.1 200 OK");
