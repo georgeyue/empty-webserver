@@ -1,6 +1,7 @@
 package com.swift;
 import org.junit.Test;
 import java.io.IOException;
+import java.net.URLDecoder;
 
 import static org.junit.Assert.*;
 public class RequestTest {
@@ -59,5 +60,13 @@ public class RequestTest {
         Request req = new Request(socket);
 
         assertEquals(line, req.getRequestLine());
+    }
+
+    @Test
+    public void shouldParsePathname() throws IOException {
+        String line = "GET /apple?name=bean%20stalk HTTP/1.1";
+        FakeRequest req = new FakeRequest();
+        req.setRequestLine(line);
+        assertEquals("/apple?name=bean stalk", req.getUrl());
     }
 }
