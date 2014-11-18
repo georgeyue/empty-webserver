@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.net.URLDecoder;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Request {
     private Response response;
@@ -15,6 +17,8 @@ public class Request {
     private String protocol;
     protected String requestLine;
     private String[] tokenizedRequestLine;
+    protected Map<String, String> queryParams;
+    private String rawQueryParams;
 
     public void setUrl(String url) {
         this.url = url;
@@ -93,5 +97,41 @@ public class Request {
         return url;
     }
 
-    
+    private String getPathname() {
+        return "";
+    }
+
+
+    public Map<String, String> getQueryParams() {
+        if (queryParams == null) {
+            queryParams = new HashMap<String, String>();
+            String[] tokens = getTokenizedRequestLine();
+            if (tokens.length >= 3) {
+                rawQueryParams = tokens[1].split("\\?").length > 1
+                        ? tokens[1].split("\\?")[1]
+                        : "";
+
+                String[] pairs = rawQueryParams.split("&");
+                for(String pair : pairs) {
+                    String[] kv = pair.split("=");
+                    if (kv.length > 0) {
+                        String v = kv.length > 1 ? decode(kv[1]) : "";
+                        queryParams.put(decode(kv[0]), v);
+                    }
+                }
+            }
+        }
+        return queryParams;
+    }
+
+
+    public String decode(String str) {
+        String ret;
+        try {
+            ret = URLDecoder.decode(str, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+        return ret;
+    }
 }
