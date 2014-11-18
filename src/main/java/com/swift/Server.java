@@ -52,6 +52,7 @@ public class Server {
             Request request = new Request(socket);
             RoutesMatcher routes = new SwiftRoutesMatcher();
             routes.add(new DirectoryRoute());
+            routes.add(new StaticRoute());
             routes.constructRoutes();
 
             RequestHandler handler = new RequestHandler(request, routes);
