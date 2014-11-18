@@ -1,6 +1,7 @@
 package com.swift;
 import org.junit.Test;
 import java.io.IOException;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 public class RequestTest {
@@ -50,6 +51,13 @@ public class RequestTest {
         assertEquals("HTTP/1.1", req.getProtocol());
     }
 
+    @Test
+    public void shouldGetPathname() throws IOException {
+        String line = "GET /apple?name=bean%20stalk HTTP/1.1";
+        FakeRequest req = new FakeRequest();
+        req.setRequestLine(line);
+        assertEquals("/apple", req.getPathname());
+    }
 
     @Test
     public void returnRequestLine() throws IOException {
@@ -59,5 +67,30 @@ public class RequestTest {
         Request req = new Request(socket);
 
         assertEquals(line, req.getRequestLine());
+    }
+
+    @Test
+    public void shouldParsePathname() throws IOException {
+        String line = "GET /apple?name=bean%20stalk HTTP/1.1";
+        FakeRequest req = new FakeRequest();
+        req.setRequestLine(line);
+        assertEquals("/apple?name=bean stalk", req.getUrl());
+    }
+
+    @Test
+    public void shouldDecodeString() throws IOException {
+        FakeRequest req = new FakeRequest();
+        assertEquals(" ", req.decode("%20"));
+    }
+
+    @Test
+    public void shouldExtractQueryParam() throws IOException {
+        String line = "GET /parameters?variable_1=Operators%20%3C%2C%20%3E%2C%20%3D%2C%20!%3D%3B%20%2B%2C%20-%2C%20*%2C%20%26%2C%20%40%2C%20%23%2C%20%24%2C%20%5B%2C%20%5D%3A%20%22is%20that%20all%22%3F&variable_2=stuff HTTP";
+        FakeRequest req = new FakeRequest();
+        req.setRequestLine(line);
+
+        Map<String, String> qs = req.getQueryParams();
+        assertEquals( "Operators <, >, =, !=; +, -, *, &, @, #, $, [, ]: \"is that all\"?", qs.get("variable_1"));
+        assertEquals( "stuff", qs.get("variable_2") );
     }
 }
