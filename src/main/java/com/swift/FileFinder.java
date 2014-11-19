@@ -1,6 +1,8 @@
 package com.swift;
 
 import java.io.IOException;
+import java.net.FileNameMap;
+import java.net.URLConnection;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -42,5 +44,17 @@ public class FileFinder {
 		fileContents = Files.readAllBytes(pathToFile);
 
 		return fileContents;
+	}
+
+	public String getFileContentsAsString() throws IOException {
+		return new String(getFileContents());
+	}
+	
+	public String getMimeType() throws java.io.IOException {
+		FileNameMap fileNameMap = URLConnection.getFileNameMap();
+		String type = fileNameMap.getContentTypeFor(getAbsoluteFilePath().toString());
+		if(type == null)
+			return "text/plain";
+		return type;
 	}
 }

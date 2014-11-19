@@ -57,4 +57,26 @@ public class FileFinderTest {
 		finder.setFile(fileName);
 		assertTrue(Arrays.equals(fileByteContents, finder.getFileContents()));
 	}
+	
+	@Test
+	public void shouldReturnMimeType() throws Exception {
+		String fileName = "foobar.txt";
+		File testRootDirectory = new File(FileFinder.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+		String rootDirectory = testRootDirectory.getParentFile().getParentFile().toString() + "/src/test/java/com/swift";
+		
+		finder.setRootDirectory(rootDirectory);
+		finder.setFile(fileName);
+		assertEquals("text/plain", finder.getMimeType());
+	}
+	
+	@Test
+	public void shouldReturnTextPlainMimeIfNoneFound() throws Exception {
+		String fileName = "foobar";		
+		File testRootDirectory = new File(FileFinder.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+		String rootDirectory = testRootDirectory.getParentFile().getParentFile().toString() + "/src/test/java/com/swift";
+		
+		finder.setRootDirectory(rootDirectory);
+		finder.setFile(fileName);
+		assertEquals("text/plain", finder.getMimeType());
+	}
 }
