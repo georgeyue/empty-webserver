@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Request {
     private Response response;
@@ -15,7 +17,8 @@ public class Request {
     private String[] tokenizedRequestLine;
     private String username;
     private String password;
-
+    private Map<String, String> headers = new HashMap<String, String>();
+    
     public Request(Socket socket) throws IOException {
         this.socket = socket;
         this.response = new Response(socket);
@@ -101,6 +104,13 @@ public class Request {
 		this.password = password;
 	}
 
-    
+	public void setHeader(String name, String value ){
+		headers.put(name, value);
+	}
+	
+	public String getHeader(String name) {
+		return headers.get(name);
+	}
+    //Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==
     
 }

@@ -32,8 +32,7 @@ public class ResponseTest {
         Response response = new Response(socket);
         response.sendResponseLine(401);
         response.send();
-       // assertEquals(String.format("GET /log HTTP/1.1 Authentication required%n"), socket.getText());
-        assertEquals(String.format("HTTP/1.1 401 Error%n"), socket.getText());
+       assertEquals(String.format("HTTP/1.1 401 Error%n"), socket.getText());
     }
     
     /*@Test
@@ -41,15 +40,14 @@ public class ResponseTest {
         FakeSocket socket = new FakeSocket();
         Request request = new Request(socket);
         Response response = new Response(socket);
-      //  request.setUsername("admin");
-      // request.setPassword("hunter2");
+         request.setUsername("admin");
+         request.setPassword("hunter2");
         response.sendResponseLine(200);
         response.send();
-       // assertEquals(String.format("GET /log HTTP/1.1 Authentication required%n"), socket.getText());
-        assertEquals(String.format("HTTP/1.1 200 OK%n"), socket.getText());
-    }*/
+         assertEquals(String.format("HTTP/1.1 200 OK%n"), socket.getText());
+    }
     
-    
+    */
     @Test
 	public void shouldListDirectory() throws Exception {
         FakeSocket socket = new FakeSocket();

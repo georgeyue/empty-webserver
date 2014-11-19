@@ -102,46 +102,31 @@ public class SwiftRoutesMatcher extends RoutesMatcher {
         
         routes.add(new BaseRoute() {
             @Override
-            public void handle() throws IOException {
-            	if(!authenticateUser()) {
-            		response.setResponseBody("Authentication required");
-            		response.setUnauthorizedUser();
-                   	response.send();
-                   	}  else {
-            			//response.setResponseBody("GET /logs HTTP/1.1");
-            			response.setAuthorizedUser();
-            			response.send();
-            					}
-            	}
+			public void handle() throws IOException {
+				System.out.println("i am here 1");
+				if (!authenticateUser()) {
+					response.setResponseBody("Authentication required");
+					response.setUnauthorizedUser();
+					response.send();
+				} else {
+					// response.setResponseBody("GET /logs HTTP/1.1");
+					//response.setResponseBody("Authorized!!!");
+					//response.setAuthorizedUser();
+					System.out.println("i am here");
+					response.send(200);
+				}
+			}
 
             @Override
             public boolean isMatch(Request request) {
                 super.isMatch(request);
-       //       System.out.println(request.getMethod() +  request.getUrl());
-        //       System.out.println(request.getMethod().equals("GET")
-        //                && request.getUrl().equals("/logs"));
                 return request.getMethod().equals("GET")
                         && request.getUrl().equals("/logs");
             }
         });
     
     
-    routes.add(new BaseRoute() {
-        @Override
-        public void handle() throws IOException {
-        	if(authenticateUser()) {
-        		response.setAuthorizedUser();
-        			response.send();
-        			}
-        	}
-
-        @Override
-        public boolean isMatch(Request request) {
-            super.isMatch(request);
-           return request.getMethod().equals("GET")
-                    && request.getUrl().equals("/logs");
-        }
-    });
+    
 }
 
     

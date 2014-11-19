@@ -22,11 +22,29 @@ public abstract class BaseRoute implements Route {
         return false;
     }
     
-    protected boolean authenticateUser(){
+    /*protected boolean authenticateUser(){
     	if( "admin".equals(request.getUsername()) && "hunter2".equals(request.getPassword())) {
+    		System.out.println("TReading User Name " + request.getUsername());
     		return true;
     	}
     	else {
+    		return false;
+    	}
+    }*/
+    
+    protected boolean authenticateUser(){
+    	try {
+	    	String credentials = request.getHeader("Authorization");
+	    	String[] userPassword = credentials.split(":");
+	    	if( "admin".equals(userPassword[0]) && "hunter2".equals(userPassword[1])) {
+	    		System.out.println("TReading User Name " + request.getUsername());
+	    		return true;
+	    	}
+	    	else {
+	    		return false;
+	    	}
+    	}catch(Exception ex) {
+    		ex.printStackTrace();
     		return false;
     	}
     }
