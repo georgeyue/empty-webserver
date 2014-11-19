@@ -50,6 +50,16 @@ public class ResponseTest {
         assertEquals(String.format("HTTP/1.1 200 OK%nContent-Type: text/directory%n%nthis is my body"), socket.getText());
 	}
     
+    @Test
+	public void shouldHaveContentLengthInHeader() throws Exception {
+        FakeSocket socket = new FakeSocket();
+        Response response = new Response(socket);
+        response.setContentLength(15);
+        response.sendResponseLine(200);
+        response.send();
+
+        assertEquals(String.format("HTTP/1.1 200 OK%nContent-Length: 15%n"), socket.getText());
+	}
 
     @Test
     public void shouldSetHeader() throws IOException {
