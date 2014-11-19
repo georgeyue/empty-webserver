@@ -19,6 +19,7 @@ public class Response {
     private OutputStream os;
 
     private boolean responseLineSent = false;
+	private int[] contentRange;
 
     public Response(Socket socket) throws IOException {
         this.socket = socket;
@@ -82,6 +83,9 @@ public class Response {
             out.println("Content-Type: " + getContentType());
         if(getContentLength() > 0)
         	out.println("Content-Length: " + getContentLength());
+        if(getContentRange() != null) {
+        	out.println("Content-Range: bytes " + getContentRange()[0] + "-" + getContentRange()[1] + "/" + getContentLength());
+        }
         if(getResponseBody() != null)
         	out.print(String.format("%n") + getResponseBody());
         out.flush();
@@ -144,4 +148,12 @@ public class Response {
         out.println(key + ": " + value);
         out.flush();
     }
+
+	public void setContentRange(int[] rangeArray) {
+		this.contentRange = rangeArray;
+	}
+	
+	public int[] getContentRange() {
+		return this.contentRange;
+	}
 }
