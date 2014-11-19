@@ -34,20 +34,7 @@ public class ResponseTest {
         response.send();
        assertEquals(String.format("HTTP/1.1 401 Error%n"), socket.getText());
     }
-    
-    /*@Test
-    public void shouldAuthorizedUserWith200() throws IOException {
-        FakeSocket socket = new FakeSocket();
-        Request request = new Request(socket);
-        Response response = new Response(socket);
-         request.setUsername("admin");
-         request.setPassword("hunter2");
-        response.sendResponseLine(200);
-        response.send();
-         assertEquals(String.format("HTTP/1.1 200 OK%n"), socket.getText());
-    }
-    
-    */
+
     @Test
 	public void shouldListDirectory() throws Exception {
         FakeSocket socket = new FakeSocket();
@@ -58,7 +45,7 @@ public class ResponseTest {
         assertEquals(String.format("HTTP/1.1 200 OK%nContent-Type: text/directory%n"), socket.getText());
 	}
     
-      @Test
+    @Test
 	public void shouldListDirectoryContents() throws Exception {
         FakeSocket socket = new FakeSocket();
         Response response = new Response(socket);
