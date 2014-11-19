@@ -42,55 +42,6 @@ public class RequestHandlerTest {
 		requestHandler.process();
 		assertEquals(200, request.getResponse().getStatusCode());
 	}
-	
-	@Test
-	public void shouldMethodNotAllowed405WithPut() throws Exception{
-		FakeSocket socket = new FakeSocket();
-		socket.setText("PUT /file1 My=data");
-		Request request = new Request(socket);
-		requestHandler = new RequestHandler(request, routes);
-		requestHandler.process();
-		assertEquals(405,request.getResponse().getStatusCode());
-	}
-	
-	@Test
-	public void shouldMethodNotAllowedWithPost() throws Exception{
-		FakeSocket socket = new FakeSocket();
-		socket.setText("POST /text-file.txt My=data");
-		Request request = new Request(socket);
-		requestHandler = new RequestHandler(request, routes);
-		requestHandler.process();
-		assertEquals(405,request.getResponse().getStatusCode());
-	}
-	
-	/*@Test
-    public void shouldUnauthorized401() throws Exception{
-                FakeSocket socket = new FakeSocket();
-                //socket.setText("GET /logs HTTP/1.1");
-              socket.setText("GET /logs HTTP/1.1");
-                Request request = new Request(socket);
-                requestHandler = new RequestHandler(request, routes);
-                requestHandler.process();
-                assertEquals(401,request.getResponse().getStatusCode());
-              
-    }*/
-
-	@Test
-	public void shouldAuthorizedUser200() throws Exception{
-        
-		FakeSocket socket = new FakeSocket();
-         //socket.setText("GET /logs HTTP/1.1");
-       socket.setText("GET /logs HTTP/1.1");
-       
-         Request request = new Request(socket);
-         request.setHeader("Authorization", "admin:hunter2");
-         requestHandler = new RequestHandler(request, routes);
-         requestHandler.process();
-         System.out.println("Request back after user name " + request.getResponse().getStatusCode());
-         
-         assertEquals(200,request.getResponse().getStatusCode());
-         //assertEquals("GET /log HTTP/1.1 Authentication required",request.getResponse().getResponseBody());
-}
 }
 
 

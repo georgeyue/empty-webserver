@@ -30,16 +30,7 @@ public class Response {
         );
 
     }
-    
-    public void setUnauthorizedUser() throws IOException {
-    	//setResponseBody("Authentication required");
-        sendResponseLine(401);
-       }
-    
-    public void setAuthorizedUser() throws IOException {
-    	sendResponseLine(200);
-        }
-    
+
     public void setMethodNotAllowed() throws IOException {
     	sendResponseLine(405);
     }
@@ -153,6 +144,6 @@ public class Response {
         out.println(key + ": " + value);
         out.flush();
     }
-    
+
 
 }
