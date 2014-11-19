@@ -6,16 +6,16 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.nio.charset.Charset;
 
 public class Response {
     private Socket socket;
     private int statusCode;
     private String contentType;
-	private String responseBody;
+	private byte[] responseBody;
 	private int contentLength;
     private PrintWriter out;
     
-    private byte[] responseBodyBytes;
     private OutputStream os;
 
     private boolean responseLineSent = false;
@@ -118,19 +118,22 @@ public class Response {
 	}
 
 	public void setResponseBody(String body) {
-		this.responseBody = body;
+		this.responseBody = body.getBytes(Charset.defaultCharset());
 	}
 
 	public String getResponseBody() {
-		return this.responseBody;
+		if (this.responseBody != null)
+			return new String(this.responseBody);
+		else
+			return null;
 	}
 
     public byte[] getResponseBodyBytes() {
-		return responseBodyBytes;
+		return responseBody;
 	}
 
 	public void setResponseBodyBytes(byte[] responseBodyBytes) {
-		this.responseBodyBytes = responseBodyBytes;
+		this.responseBody = responseBodyBytes;
 	}
 
 	public int getContentLength() {
