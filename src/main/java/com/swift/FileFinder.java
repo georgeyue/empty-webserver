@@ -54,7 +54,7 @@ public class FileFinder {
 		FileNameMap fileNameMap = URLConnection.getFileNameMap();
 		String type = fileNameMap.getContentTypeFor(getAbsoluteFilePath().toString());
 		if(type == null)
-			return "text/html";
+			return "text/plain";
 		return type;
 	}
 }

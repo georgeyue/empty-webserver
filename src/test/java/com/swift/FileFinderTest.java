@@ -70,13 +70,13 @@ public class FileFinderTest {
 	}
 	
 	@Test
-	public void shouldReturnTextHTMLMimeIfNoneFound() throws Exception {
+	public void shouldReturnTextPlainMimeIfNoneFound() throws Exception {
 		String fileName = "foobar";		
 		File testRootDirectory = new File(FileFinder.class.getProtectionDomain().getCodeSource().getLocation().getPath());
 		String rootDirectory = testRootDirectory.getParentFile().getParentFile().toString() + "/src/test/java/com/swift";
 		
 		finder.setRootDirectory(rootDirectory);
 		finder.setFile(fileName);
-		assertEquals("text/html", finder.getMimeType());
+		assertEquals("text/plain", finder.getMimeType());
 	}
 }
