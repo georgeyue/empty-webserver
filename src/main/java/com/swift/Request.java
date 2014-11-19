@@ -113,7 +113,9 @@ public class Request {
 	}
 
 	public void setHeader(String name, String value ){
-		header.put(name, value);
+		if (header == null)
+			header = new HashMap<String, String>();
+		header.put(name.toLowerCase(), value);
 	}
 	
     //Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==
