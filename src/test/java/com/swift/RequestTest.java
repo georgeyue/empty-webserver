@@ -1,6 +1,9 @@
 package com.swift;
 import org.junit.Test;
-import java.io.IOException;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.*;
@@ -97,8 +100,8 @@ public class RequestTest {
         FakeSocket socket = new FakeSocket();
         socket.setText("GET /apples HTTP/1.1" + LS
                         + "Location: http://localhost" + LS
-                        + LS
-                        + "Some body stuff\r\n"
+//                        + LS
+//                        + "Some body stuff\r\n"
         );
         FakeRequest req = new FakeRequest(socket);
 
@@ -108,34 +111,58 @@ public class RequestTest {
     }
 
     @Test
-    public void testParseRequest() throws IOException {
-        String LS = System.getProperty("line.separator");
+    public void parseForRequestLineWithNoHeaderAndBody() throws IOException {
         FakeSocket socket = new FakeSocket();
         socket.setText("GET /apples HTTP/1.1");
-//                        + LS
-//                        + "Location: http://localhost" + LS
-//                        + LS
-//                        + "Some body stuff\r\n"
-//        );
         FakeRequest req = new FakeRequest(socket);
 
         req.parseRequest();
         assertEquals("GET", req.getMethod());
-    }
-
-//    @Test
-//    TODO
-    public void parseRequestForHeader() {
-        assertTrue(false);
-    }
-
-//    @Test
-//    TODO
-    public void parseRequestForBody() {
-        assertTrue(false);
+        assertEquals("GET /apples HTTP/1.1", req.getRequestLine());
     }
 
     @Test
+    public void parseForHeader() throws IOException {
+        String LS = System.getProperty("line.separator");
+        FakeSocket socket = new FakeSocket();
+        socket.setText("GET /apples HTTP/1.1" + LS
+                        + "Location: http://localhost" + LS
+                        + "Accept: */*" + LS
+                        + LS
+//                        + "Some body stuff\r\n"
+        );
+        FakeRequest request = new FakeRequest(socket);
+        assertEquals("*/*", request.getHeader("accept"));
+    }
+
+    @Test
+    public void parseRequestForBody() throws Exception {
+        String LS = System.getProperty("line.separator");
+        FakeSocket socket = new FakeSocket();
+        socket.setText("GET /apples HTTP/1.1" + LS
+                        + "Location: http://localhost" + LS
+                        + "Accept: */*" + LS
+                        + "Content-length: 15" + LS
+                        + LS
+                        + "Some body stuff\r\n"
+        );
+        FakeRequest request = new FakeRequest(socket);
+
+//        BufferedReader in = new BufferedReader(new InputStreamReader(getInputStream()));
+//        String line;
+//        int c;
+//        while((c = in.read()) != -1) {
+//            System.out.println((char)c);
+//        }
+//        while((line = in.readLine()) != null) {
+//            System.out.println(line);
+//        }
+
+        assertEquals("Some body stuff", request.getBody());
+    }
+
+
+//    @Test
     public void shouldExtractQueryParam() throws IOException {
         String line = "GET /parameters?variable_1=Operators%20%3C%2C%20%3E%2C%20%3D%2C%20!%3D%3B%20%2B%2C%20-%2C%20*%2C%20%26%2C%20%40%2C%20%23%2C%20%24%2C%20%5B%2C%20%5D%3A%20%22is%20that%20all%22%3F&variable_2=stuff HTTP";
         FakeRequest req = new FakeRequest();

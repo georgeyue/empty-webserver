@@ -1,13 +1,9 @@
 package com.swift;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.Socket;
 import java.net.URLDecoder;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Request {
     private Response response;
@@ -18,9 +14,10 @@ public class Request {
     protected String requestLine;
     private String[] tokenizedRequestLine;
     protected Map<String, String> queryParams;
-    private String rawQueryParams;
+    protected String rawQueryParams;
     private String pathname;
     private Map<String, String> header;
+    private String body;
 
     public void setUrl(String url) {
         this.url = url;
@@ -33,6 +30,7 @@ public class Request {
         url = null;
         protocol = null;
         requestLine = null;
+        body = null;
     }
 
     public String getRequestLine() {
@@ -133,41 +131,30 @@ public class Request {
 
 
     public void parseRequest() {
-        BufferedReader in = null;
-        String LF = System.getProperty("line.separator");
-        String line = null;
-        boolean hasCRLF = false;
+        Scanner in;
+        String line;
+        int length;
         if (header == null)
             header = new HashMap<String, String>();
 
         try {
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            in = new Scanner(socket.getInputStream());
 
-            while((line = in.readLine()) != null) {
-                if (requestLine == null)
-                    requestLine = line;
-                else {
-                    if (line.equals(LF)) {
-                        hasCRLF = true;
-                        continue;
-                    }
+            requestLine = in.nextLine();
+            if (requestLine == null)
+                requestLine = "";
 
-                    if (hasCRLF) {
-                    } else {
-                        parseRequestHeader(line);
-                    }
-                }
-                if (line.isEmpty()) break;
+            while(in.hasNextLine() && (line = in.nextLine()) != null && !line.isEmpty()) {
+                parseRequestHeader(line);
             }
 
+            String cll = getHeader("content-length");
+            length = (cll == null ? 0 : Integer.parseInt(cll));
+            if (length > 0) {
+                body = in.findWithinHorizon(".*", length);
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
-//        } finally {
-//            if (in != null) try {
-//                in.close();
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
         }
     }
 
@@ -180,9 +167,15 @@ public class Request {
     public void parseRequestHeader(String line) {
         if (header == null) header = new HashMap<String, String>();
 
-        String[] tokens = line.split(": ");
+        String[] tokens = line.split(":\\s*");
         if (tokens.length == 2) {
             header.put(tokens[0].toLowerCase(), tokens[1]);
         }
+    }
+
+    public String getBody() {
+        if (body == null)
+            parseRequest();
+        return body;
     }
 }
