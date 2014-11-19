@@ -178,4 +178,8 @@ public class Request {
             parseRequest();
         return body;
     }
+    
+    public Map<String, String> getRequestHeaders() {
+		return header;
+    }
 }

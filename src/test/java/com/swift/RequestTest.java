@@ -93,6 +93,14 @@ public class RequestTest {
         request.parseRequestHeader(line);
         assertEquals("value", request.getHeader("key"));
     }
+    
+    @Test
+	public void canGetAllRequestHeaders() throws Exception {
+        String line = "key: value";
+        FakeRequest request = new FakeRequest();
+        request.parseRequestHeader(line);
+        assertEquals("{key=value}", request.getRequestHeaders().toString());
+	}
 
     @Test
     public void parseRequestForRequestLine() throws IOException {

@@ -28,6 +28,15 @@ public class ResponseTest {
     }
     
     @Test
+	public void shouldResponsdWithPartial() throws Exception {
+		FakeSocket socket = new FakeSocket();
+		Response response = new Response(socket);
+		response.sendResponseLine(206);
+		response.send();
+		assertEquals(String.format("HTTP/1.1 206 Partial Content%n"), socket.getText());
+	}
+    
+    @Test
 	public void shouldListDirectory() throws Exception {
         FakeSocket socket = new FakeSocket();
         Response response = new Response(socket);

@@ -52,6 +52,9 @@ public class Response {
             case 200:
             	out.println("HTTP/1.1 200 OK");
             	break;
+            case 206:
+            	out.println("HTTP/1.1 206 Partial Content");
+            	break;
             default:
                 out.println("HTTP/1.1 200 OK");
               
