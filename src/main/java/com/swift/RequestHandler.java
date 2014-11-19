@@ -23,15 +23,7 @@ public class RequestHandler {
     }
 
     public void process() throws IOException {
-        Response response = request.getResponse();
-     //  System.out.println("check the username " + request.getUsername()); 
         routes.processRequest(request);
-        if (routes.requestIsProccessed()) {
-            return;
-        }
-
-        // TODO this needs to be extracted out to have routes handle this
-        response.send();
     }
     
     public boolean fileExists() {

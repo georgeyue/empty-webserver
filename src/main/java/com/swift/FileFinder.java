@@ -1,10 +1,11 @@
 package com.swift;
 
 import java.io.IOException;
+import java.net.FileNameMap;
+import java.net.URLConnection;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 
 public class FileFinder {
 	private String rootDirectory;
@@ -37,14 +38,23 @@ public class FileFinder {
 		this.theFile = fileName;
 	}
 
-	public byte[] getFileContents() {
+	public byte[] getFileContents() throws IOException {
 		Path pathToFile = this.getAbsoluteFilePath();
 		byte[] fileContents = null;
-		try {
-			fileContents = Files.readAllBytes(pathToFile);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		fileContents = Files.readAllBytes(pathToFile);
+
 		return fileContents;
+	}
+
+	public String getFileContentsAsString() throws IOException {
+		return new String(getFileContents());
+	}
+	
+	public String getMimeType() throws java.io.IOException {
+		FileNameMap fileNameMap = URLConnection.getFileNameMap();
+		String type = fileNameMap.getContentTypeFor(getAbsoluteFilePath().toString());
+		if(type == null)
+			return "text/plain";
+		return type;
 	}
 }

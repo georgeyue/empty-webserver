@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.net.Socket;
 
 public class FakeRequest extends Request {
-    private String url;
-
     public FakeRequest(Socket socket) throws IOException {
         super(socket);
     }
@@ -14,11 +12,11 @@ public class FakeRequest extends Request {
         super(new FakeSocket());
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setRequestLine(String line) {
+        super.requestLine = line;
     }
 
-    public String getUrl() {
-        return url;
+    public void setUrl(String url) {
+        super.setUrl(url);
     }
 }

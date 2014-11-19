@@ -36,10 +36,6 @@ public class Server {
     public httpServerSocket getSocket() {
         return serverSocket;
     }
-
-    public boolean isClosed() {
-        return serverSocket.isClosed();
-    }
     
     public boolean isStopped() {
     	return this.stopped;
@@ -53,6 +49,7 @@ public class Server {
             RoutesMatcher routes = new SwiftRoutesMatcher();
             routes.add(new DirectoryRoute());
             routes.constructRoutes();
+            routes.add(new StaticRoute());
 
             RequestHandler handler = new RequestHandler(request, routes);
             handler.process();

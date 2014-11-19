@@ -9,9 +9,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.swift.Server;
-
-
 public class TestServerShould {
 
 	int testPort = 5000;
@@ -62,11 +59,10 @@ public class TestServerShould {
     @Test
     public void return404() throws IOException {
         Socket testClient = new Socket(InetAddress.getLocalHost(), testPort);
-        String inputStr = "";
+        String inputStr;
 
-        PrintWriter pw = new PrintWriter(testClient.getOutputStream());
-        pw.println("GET /foobar HTTP/1.1");
-        pw.flush();
+        PrintWriter pw = new PrintWriter(testClient.getOutputStream(), true);
+        pw.println("GET /foobar HTTP/1.1\r\n");
 
         BufferedReader input = new BufferedReader(new InputStreamReader(testClient.getInputStream()));
         inputStr = input.readLine();
@@ -74,7 +70,11 @@ public class TestServerShould {
         assertEquals("HTTP/1.1 404 Not Found", inputStr);
     }
 
-
+    @Test
+	public void shouldBeAbleToReturnASocket() throws Exception {
+		assertNotNull(myServer.getSocket());
+	}
+    
     @Test
     public void shouldSetDirectory() {
         String dir = "/a/b/c/d/e";

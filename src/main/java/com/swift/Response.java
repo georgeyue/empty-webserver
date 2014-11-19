@@ -1,6 +1,9 @@
 package com.swift;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 
@@ -9,13 +12,23 @@ public class Response {
     private int statusCode;
     private String contentType;
 	private String responseBody;
+	private int contentLength;
     private PrintWriter out;
+    
+    private byte[] responseBodyBytes;
+    private OutputStream os;
 
     private boolean responseLineSent = false;
 
     public Response(Socket socket) throws IOException {
         this.socket = socket;
-        out = new PrintWriter(socket.getOutputStream());
+        os = socket.getOutputStream();
+        out = new PrintWriter(
+        	    new BufferedWriter(
+        	        new OutputStreamWriter(os)
+        	    )
+        );
+
     }
     
     public void setUnauthorizedUser() throws IOException {
@@ -76,8 +89,10 @@ public class Response {
             sendResponseLine(222);
         if(getContentType() != null)
             out.println("Content-Type: " + getContentType());
+        if(getContentLength() > 0)
+        	out.println("Content-Length: " + getContentLength());
         if(getResponseBody() != null)
-            out.println(String.format("%n") + getResponseBody());
+        	out.print(String.format("%n") + getResponseBody());
         out.flush();
         socket.close();
     }
@@ -86,6 +101,18 @@ public class Response {
         sendResponseLine(statusCode);
         send();
     }
+
+	public void sendBinary(int statusCode) throws IOException {
+        sendResponseLine(statusCode);
+        if(getContentType() != null)
+            os.write(("Content-Type: " + getContentType() + System.lineSeparator()).getBytes());
+        if(getContentLength() > 0)
+        	os.write(("Content-Length: " + getContentLength() + System.lineSeparator() + System.lineSeparator()).getBytes());
+        if(getResponseBody() != null)
+        	os.write(getResponseBodyBytes());
+        os.flush();
+        socket.close();
+	}
 
     public String getContentType() {
 		return contentType;
@@ -103,7 +130,23 @@ public class Response {
 		return this.responseBody;
 	}
 
-    public void sendHeader(String key, String value) throws IOException {
+    public byte[] getResponseBodyBytes() {
+		return responseBodyBytes;
+	}
+
+	public void setResponseBodyBytes(byte[] responseBodyBytes) {
+		this.responseBodyBytes = responseBodyBytes;
+	}
+
+	public int getContentLength() {
+		return contentLength;
+	}
+
+	public void setContentLength(int length) {
+		this.contentLength = length;
+	}
+
+	public void sendHeader(String key, String value) throws IOException {
         if (!responseLineSent)
             sendResponseLine(statusCode);
 
