@@ -72,9 +72,10 @@ public class RequestHandlerTest {
                 requestHandler = new RequestHandler(request, routes);
                 requestHandler.process();
                 assertEquals(401,request.getResponse().getStatusCode());
-                //assertEquals("GET /log HTTP/1.1 Authentication required",request.getResponse().getResponseBody());
+              
     }
-	/*@Test
+
+	@Test
 	public void shouldAuthorizedUser200() throws Exception{
         
 		FakeSocket socket = new FakeSocket();
@@ -83,10 +84,14 @@ public class RequestHandlerTest {
        
          Request request = new Request(socket);
          requestHandler = new RequestHandler(request, routes);
+         request.setUsername("admin");
+         request.setPassword("hunter2");
          requestHandler.process();
+         System.out.println("Request back after user name " + request.getResponse().getStatusCode());
+         
          assertEquals(200,request.getResponse().getStatusCode());
          //assertEquals("GET /log HTTP/1.1 Authentication required",request.getResponse().getResponseBody());
-}*/
+}
 }
 
 

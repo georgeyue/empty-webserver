@@ -104,12 +104,10 @@ public class SwiftRoutesMatcher extends RoutesMatcher {
             @Override
             public void handle() throws IOException {
             	if(!authenticateUser()) {
-            		//response.setResponseBody("GET /logs HTTP/1.1");
+            		response.setResponseBody("Authentication required");
             		response.setUnauthorizedUser();
-            		response.send();
-           // 		System.out.println(response.getStatusCode());
-            		//response.setResponseBody("GET /logs HTTP/1.1");
-            		}  else {
+                   	response.send();
+                   	}  else {
             			//response.setResponseBody("GET /logs HTTP/1.1");
             			response.setAuthorizedUser();
             			response.send();
@@ -126,9 +124,26 @@ public class SwiftRoutesMatcher extends RoutesMatcher {
                         && request.getUrl().equals("/logs");
             }
         });
-    }
     
     
+    routes.add(new BaseRoute() {
+        @Override
+        public void handle() throws IOException {
+        	if(authenticateUser()) {
+        		response.setAuthorizedUser();
+        			response.send();
+        			}
+        	}
+
+        @Override
+        public boolean isMatch(Request request) {
+            super.isMatch(request);
+           return request.getMethod().equals("GET")
+                    && request.getUrl().equals("/logs");
+        }
+    });
+}
+
     
     
  

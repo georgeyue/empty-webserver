@@ -24,6 +24,7 @@ public class RequestHandler {
 
     public void process() throws IOException {
         Response response = request.getResponse();
+     //  System.out.println("check the username " + request.getUsername()); 
         routes.processRequest(request);
         if (routes.requestIsProccessed()) {
             return;

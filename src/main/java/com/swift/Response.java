@@ -19,14 +19,12 @@ public class Response {
     }
     
     public void setUnauthorizedUser() throws IOException {
-       setResponseBody("Authentication required");
-        //send(401);
-    	sendResponseLine(401);
+    	//setResponseBody("Authentication required");
+        sendResponseLine(401);
        }
     
     public void setAuthorizedUser() throws IOException {
-        // setResponseBody("Authentication required");
-         send(200);
+    	sendResponseLine(200);
         }
     
     public void setMethodNotAllowed() throws IOException {
