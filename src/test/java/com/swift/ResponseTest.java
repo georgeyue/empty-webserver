@@ -83,4 +83,16 @@ public class ResponseTest {
         assertEquals(String.format("HTTP/1.1 200 OK%n"), socket.getText());
     }
 
+    @Test
+	public void shouldKnowRequestRange() throws Exception {
+        FakeSocket socket = new FakeSocket();
+        Response response = new Response(socket);
+        int[] rangeArray = {0, 5};
+        response.setContentRange(rangeArray);
+        response.sendResponseLine(206);
+        response.send();
+
+        assertEquals(String.format("HTTP/1.1 206 Partial Content%nContent-Range: bytes 0-5/0%n"), socket.getText());
+	}
+
 }
