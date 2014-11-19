@@ -143,8 +143,7 @@ public class Request {
         try {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            line = in.readLine();
-            while(line != null && !line.isEmpty()) {
+            while((line = in.readLine()) != null) {
                 if (requestLine == null)
                     requestLine = line;
                 else {
@@ -158,17 +157,17 @@ public class Request {
                         parseRequestHeader(line);
                     }
                 }
-                line = in.readLine();
+                if (line.isEmpty()) break;
             }
 
         } catch (IOException e) {
             throw new RuntimeException(e);
-        } finally {
-            if (in != null) try {
-                in.close();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+//        } finally {
+//            if (in != null) try {
+//                in.close();
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
         }
     }
 

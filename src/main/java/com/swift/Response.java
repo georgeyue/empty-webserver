@@ -66,6 +66,7 @@ public class Response {
             out.println("Content-Type: " + getContentType());
         if(getResponseBody() != null)
             out.print(String.format("%n") + getResponseBody());
+//        out.print("\r\n");
         out.flush();
         socket.close();
     }
