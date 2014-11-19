@@ -9,9 +9,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.swift.Server;
-
-
 public class TestServerShould {
 
 	int testPort = 5000;
@@ -62,8 +59,7 @@ public class TestServerShould {
     @Test
     public void return404() throws IOException {
         Socket testClient = new Socket(InetAddress.getLocalHost(), testPort);
-        String inputStr = "";
-        String LF = System.getProperty("line.separator");
+        String inputStr;
 
         PrintWriter pw = new PrintWriter(testClient.getOutputStream(), true);
         pw.println("GET /foobar HTTP/1.1\r\n");

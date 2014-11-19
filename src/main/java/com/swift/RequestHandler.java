@@ -23,7 +23,6 @@ public class RequestHandler {
     }
 
     public void process() throws IOException {
-        Response response = request.getResponse();
         routes.processRequest(request);
     }
     
