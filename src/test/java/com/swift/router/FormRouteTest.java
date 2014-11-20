@@ -1,7 +1,6 @@
 package com.swift.router;
 
 import com.swift.FakeRequest;
-import com.swift.Request;
 import org.junit.Test;
 
 import java.io.IOException;
