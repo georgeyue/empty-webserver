@@ -6,21 +6,21 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Hashtable;
+import java.nio.charset.Charset;
 
 public class Response {
     private Socket socket;
     private int statusCode;
     private String contentType;
-	private String responseBody;
+	private byte[] responseBody;
 	private int contentLength;
     private PrintWriter out;
     private Header header;
     
-    private byte[] responseBodyBytes;
     private OutputStream os;
 
     private boolean responseLineSent = false;
+	private int[] contentRange;
 
     public Response(Socket socket) throws IOException {
         header = new Header();
@@ -45,7 +45,7 @@ public class Response {
         responseLineSent = true;
         statusCode = i;
 
-        String resLine;
+        String resLine = "";
 
         switch(statusCode) {
             case 404:
@@ -59,6 +59,9 @@ public class Response {
             	break;
             case 200:
             	resLine ="HTTP/1.1 200 OK";
+            	break;
+            case 206:
+            	resLine = "HTTP/1.1 206 Partial Content";
             	break;
             default:
                 resLine ="HTTP/1.1 200 OK";
@@ -88,10 +91,11 @@ public class Response {
         if(getContentType() != null)
             setHeader("Content-Type", getContentType());
         if(getContentLength() > 0)
-            setHeader("Content-Length", Integer.toString(getContentLength()));
-
+        	setHeader("Content-Length", Integer.toString(getContentLength()));
+        if(getContentRange() != null) {
+        	setHeader("Content-Range", "bytes " + getContentRange()[0] + "-" + getContentRange()[1] + "/" + getContentLength());
+        }
         header.writeTo(out);
-
         if(getResponseBody() != null)
         	out.print(String.format("%n") + getResponseBody());
         out.flush();
@@ -125,19 +129,22 @@ public class Response {
 	}
 
 	public void setResponseBody(String body) {
-		this.responseBody = body;
+		this.responseBody = body.getBytes(Charset.defaultCharset());
 	}
 
 	public String getResponseBody() {
-		return this.responseBody;
+		if (this.responseBody != null)
+			return new String(this.responseBody);
+		else
+			return null;
 	}
 
     public byte[] getResponseBodyBytes() {
-		return responseBodyBytes;
+		return responseBody;
 	}
 
 	public void setResponseBodyBytes(byte[] responseBodyBytes) {
-		this.responseBodyBytes = responseBodyBytes;
+		this.responseBody = responseBodyBytes;
 	}
 
 	public int getContentLength() {
@@ -163,4 +170,11 @@ public class Response {
     public void setHeader(String key, String value) {
         header.put(key, value);
     }
+	public void setContentRange(int[] rangeArray) {
+		this.contentRange = rangeArray;
+	}
+	
+	public int[] getContentRange() {
+		return this.contentRange;
+	}
 }

@@ -1,5 +1,6 @@
 package com.swift;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.*;
@@ -8,10 +9,17 @@ import static org.junit.Assert.*;
 
 public class ResponseTest {
 
+	private FakeSocket socket;
+	private Response response;
+	
+	@Before
+	public void setUp() throws IOException {
+        socket = new FakeSocket();
+        response = new Response(socket);		
+	}
+	
     @Test
     public void shouldSetHeaderNotFound() throws Exception {
-        FakeSocket socket = new FakeSocket();
-        Response response = new Response(socket);
         response.setNotFoundHeader();
         response.send();
         assertEquals(404, response.getStatusCode());
@@ -20,8 +28,6 @@ public class ResponseTest {
 
     @Test
     public void shouldResponseWithOk() throws IOException {
-        FakeSocket socket = new FakeSocket();
-        Response response = new Response(socket);
         response.sendResponseLine(200);
         response.send();
         assertEquals(String.format("HTTP/1.1 200 OK%n"), socket.getText());
@@ -36,9 +42,14 @@ public class ResponseTest {
     }
 
     @Test
+	public void shouldResponsdWithPartial() throws Exception {
+		response.sendResponseLine(206);
+		response.send();
+		assertEquals(String.format("HTTP/1.1 206 Partial Content%n"), socket.getText());
+	}
+    
+    @Test
 	public void shouldListDirectory() throws Exception {
-        FakeSocket socket = new FakeSocket();
-        Response response = new Response(socket);
         response.setContentType("text/directory");
         response.sendResponseLine(200);
         response.send();
@@ -47,8 +58,6 @@ public class ResponseTest {
     
     @Test
 	public void shouldListDirectoryContents() throws Exception {
-        FakeSocket socket = new FakeSocket();
-        Response response = new Response(socket);
         response.setContentType("text/directory");
         response.setResponseBody("this is my body");
         response.sendResponseLine(200);
@@ -59,8 +68,6 @@ public class ResponseTest {
     
     @Test
 	public void shouldHaveContentLengthInHeader() throws Exception {
-        FakeSocket socket = new FakeSocket();
-        Response response = new Response(socket);
         response.setContentLength(15);
         response.sendResponseLine(200);
         response.send();
@@ -70,8 +77,6 @@ public class ResponseTest {
 
     @Test
     public void shouldSetHeader() throws IOException {
-        FakeSocket socket = new FakeSocket();
-        Response response = new Response(socket);
         response.sendHeader("Allowed", "GET,HEAD");
         response.send();
 
@@ -80,8 +85,6 @@ public class ResponseTest {
 
     @Test
     public void sendResponseLineOnSend() throws IOException {
-        FakeSocket socket = new FakeSocket();
-        Response response = new Response(socket);
         response.send();
 
         assertEquals(String.format("HTTP/1.1 200 OK%n"), socket.getText());
@@ -106,5 +109,17 @@ public class ResponseTest {
         // TODO seriously got to fix all the line seps per spec, use CRLF
         assertEquals(String.format("HTTP/1.1 200 OK%nAllowed: GET,HEAD\r\n"), socket.getText());
     }
+
+    @Test
+	public void shouldKnowRequestRange() throws Exception {
+        FakeSocket socket = new FakeSocket();
+        Response response = new Response(socket);
+        int[] rangeArray = {0, 5};
+        response.setContentRange(rangeArray);
+        response.sendResponseLine(206);
+        response.send();
+
+        assertEquals(String.format("HTTP/1.1 206 Partial Content%nContent-Range: bytes 0-5/0\r\n"), socket.getText());
+	}
 
 }
