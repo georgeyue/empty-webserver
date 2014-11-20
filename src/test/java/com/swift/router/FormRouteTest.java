@@ -17,8 +17,9 @@ public class FormRouteTest {
     public void setup() throws IOException {
         request = new FakeRequest();
         route = new FormRoute();
-
+        StaticStorage.clear();
     }
+
     @Test
     public void matchRequest() {
         request.setRequestLine("GET /form HTTP");

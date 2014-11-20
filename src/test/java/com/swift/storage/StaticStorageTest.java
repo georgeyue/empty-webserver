@@ -1,11 +1,17 @@
 package com.swift.storage;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class StaticStorageTest {
 
+    @Before
+    public void setup() {
+        StaticStorage.clear();
+    }
+    
     @Test
     public void testGetSet() throws Exception {
         StaticStorage.set("banan");
