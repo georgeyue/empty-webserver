@@ -134,5 +134,10 @@ public class SwiftRoutesMatcher extends RoutesMatcher {
 						&& request.getUrl().equals("/form");
 			}
 		});
-	}
+
+        routes.add(new RedirectRoute());
+        routes.add(new AuthenticateRoute());
+        routes.add(new DirectoryRoute());
+        routes.add(new StaticRoute());
+    }
 }

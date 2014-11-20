@@ -54,12 +54,9 @@ public class Server {
         while(!isStopped() && !serverSocket.isClosed()) {
             socket = serverSocket.accept();
             Request request = new Request(socket);
+
             RoutesMatcher routes = new SwiftRoutesMatcher();
-            routes.add(new RedirectRoute());
-            routes.add(new AuthenticateRoute());
-            routes.add(new DirectoryRoute());
             routes.constructRoutes();
-            routes.add(new StaticRoute());
 
             RequestHandler handler = new RequestHandler(request, routes);
             handler.process();
