@@ -9,6 +9,7 @@ import java.util.Map;
 import static org.junit.Assert.*;
 public class RequestTest {
 
+    public static final String LS = System.getProperty("line.separator");
 
     @Test
     public void initWithSocket() throws IOException {
@@ -118,6 +119,13 @@ public class RequestTest {
         assertEquals("GET /apples HTTP/1.1", req.getRequestLine());
     }
 
+    @Test
+    public void parseHeaderWithUrlWithPort() throws IOException {
+        Request request = new Request(new FakeSocket());
+        request.parseRequestHeader("Host: localhost:5000");
+
+        assertEquals("localhost:5000", request.getHeader("host"));
+    }
     @Test
     public void parseForRequestLineWithNoHeaderAndBody() throws IOException {
         FakeSocket socket = new FakeSocket();

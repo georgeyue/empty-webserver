@@ -182,8 +182,8 @@ public class Request {
     public void parseRequestHeader(String line) {
         if (header == null) header = new HashMap<String, String>();
 
-        String[] tokens = line.split(":\\s*");
-        if (tokens.length == 2) {
+        String[] tokens = line.split(":\\s+");
+        if (tokens.length >= 2) {
             header.put(tokens[0].toLowerCase(), tokens[1]);
         }
     }
