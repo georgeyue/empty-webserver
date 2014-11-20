@@ -6,21 +6,24 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.nio.charset.Charset;
 
 public class Response {
     private Socket socket;
     private int statusCode;
     private String contentType;
-	private String responseBody;
+	private byte[] responseBody;
 	private int contentLength;
     private PrintWriter out;
+    private Header header;
     
-    private byte[] responseBodyBytes;
     private OutputStream os;
 
     private boolean responseLineSent = false;
+	private int[] contentRange;
 
     public Response(Socket socket) throws IOException {
+        header = new Header();
         this.socket = socket;
         os = socket.getOutputStream();
         out = new PrintWriter(
@@ -30,7 +33,7 @@ public class Response {
         );
 
     }
-    
+
     public void setMethodNotAllowed() throws IOException {
     	sendResponseLine(405);
     }
@@ -42,24 +45,33 @@ public class Response {
         responseLineSent = true;
         statusCode = i;
 
+        String resLine = "";
+
         switch(statusCode) {
             case 404:
-                out.println("HTTP/1.1 404 Not Found");
+                resLine = "HTTP/1.1 404 Not Found";
                 break;
             case 405:
-            	out.println("HTTP/1.1 405 Method Not Allowed");
+            	resLine = "HTTP/1.1 405 Method Not Allowed";
+            	break;
+            case 401:
+            	resLine ="HTTP/1.1 401 Error";
             	break;
             case 302:
                 out.println("HTTP/1.1 302 Found");
                 break;
             case 200:
-            	out.println("HTTP/1.1 200 OK");
+            	resLine ="HTTP/1.1 200 OK";
+            	break;
+            case 206:
+            	resLine = "HTTP/1.1 206 Partial Content";
             	break;
             default:
-                out.println("HTTP/1.1 200 OK");
+                resLine ="HTTP/1.1 200 OK";
               
         }
-
+        out.println(resLine);
+        Server.sout(resLine);
         out.flush();
     }
 
@@ -78,13 +90,19 @@ public class Response {
     public void send() throws IOException {
         if (!responseLineSent)
             sendResponseLine(222);
+
         if(getContentType() != null)
-            out.println("Content-Type: " + getContentType());
+            setHeader("Content-Type", getContentType());
         if(getContentLength() > 0)
-        	out.println("Content-Length: " + getContentLength());
+        	setHeader("Content-Length", Integer.toString(getContentLength()));
+        if(getContentRange() != null) {
+        	setHeader("Content-Range", "bytes " + getContentRange()[0] + "-" + getContentRange()[1] + "/" + getContentLength());
+        }
+        header.writeTo(out);
         if(getResponseBody() != null)
         	out.print(String.format("%n") + getResponseBody());
         out.flush();
+        Server.sout("");
         socket.close();
     }
 
@@ -114,19 +132,22 @@ public class Response {
 	}
 
 	public void setResponseBody(String body) {
-		this.responseBody = body;
+		this.responseBody = body.getBytes(Charset.defaultCharset());
 	}
 
 	public String getResponseBody() {
-		return this.responseBody;
+		if (this.responseBody != null)
+			return new String(this.responseBody);
+		else
+			return null;
 	}
 
     public byte[] getResponseBodyBytes() {
-		return responseBodyBytes;
+		return responseBody;
 	}
 
 	public void setResponseBodyBytes(byte[] responseBodyBytes) {
-		this.responseBodyBytes = responseBodyBytes;
+		this.responseBody = responseBodyBytes;
 	}
 
 	public int getContentLength() {
@@ -144,4 +165,19 @@ public class Response {
         out.println(key + ": " + value);
         out.flush();
     }
+
+    public String getHeader(String key) {
+        return header.get(key);
+    }
+
+    public void setHeader(String key, String value) {
+        header.put(key, value);
+    }
+	public void setContentRange(int[] rangeArray) {
+		this.contentRange = rangeArray;
+	}
+	
+	public int[] getContentRange() {
+		return this.contentRange;
+	}
 }

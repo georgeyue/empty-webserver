@@ -4,6 +4,7 @@ import com.swift.router.*;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class Server {
 
@@ -11,6 +12,8 @@ public class Server {
     private Socket socket;
     private boolean stopped = false;
     private static String directory = "";
+    private static boolean debug = false;
+    public static ArrayList<String> logs = new ArrayList<String>();
 
     public Server(int portNumber, String directoryToUse) throws IOException {
         serverSocket = new httpServerSocket(portNumber);
@@ -25,6 +28,11 @@ public class Server {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static void sout(Object o) {
+        if (debug)
+            System.out.println(o);
     }
 
 	public void stop() throws IOException {
@@ -47,6 +55,7 @@ public class Server {
             socket = serverSocket.accept();
             Request request = new Request(socket);
             RoutesMatcher routes = new SwiftRoutesMatcher();
+            routes.add(new AuthenticateRoute());
             routes.add(new DirectoryRoute());
             routes.constructRoutes();
             routes.add(new StaticRoute());

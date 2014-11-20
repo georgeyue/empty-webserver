@@ -2,6 +2,8 @@ package com.swift;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 import java.net.URLDecoder;
 import java.util.*;
 
@@ -91,6 +93,12 @@ public class Request {
         return url;
     }
 
+    public void setHeader(String name, String value ){
+		if (header == null)
+			header = new HashMap<String, String>();
+		header.put(name.toLowerCase(), value);
+	}
+	
     public String getPathname() {
         getQueryParams();
         return pathname;
@@ -143,8 +151,14 @@ public class Request {
             requestLine = in.nextLine();
             if (requestLine == null)
                 requestLine = "";
+            Server.sout(requestLine);
+
+            if (!getUrl().equals("/logs")) {
+                Server.logs.add(requestLine);
+            }
 
             while(in.hasNextLine() && (line = in.nextLine()) != null && !line.isEmpty()) {
+                Server.sout(line);
                 parseRequestHeader(line);
             }
 
@@ -153,6 +167,7 @@ public class Request {
             if (length > 0) {
                 body = in.findWithinHorizon(".*", length);
             }
+            Server.sout("");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -178,4 +193,9 @@ public class Request {
             parseRequest();
         return body;
     }
+    
+    public Map<String, String> getRequestHeaders() {
+		return header;
+    }
 }
+
