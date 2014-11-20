@@ -45,20 +45,6 @@ public class SwiftRoutesMatcher extends RoutesMatcher {
         routes.add(new BaseRoute() {
             @Override
             public void handle() throws IOException {
-                response.send(200);
-            }
-
-            @Override
-            public boolean isMatch(Request request) {
-                super.isMatch(request);
-                return request.getMethod().equals("POST")
-                        && request.getUrl().equals("/form");
-            }
-        });
-
-        routes.add(new BaseRoute() {
-            @Override
-            public void handle() throws IOException {
                 response.setMethodNotAllowed();
                 response.send();
             }
@@ -107,34 +93,7 @@ public class SwiftRoutesMatcher extends RoutesMatcher {
             }
         });
 
-		routes.add(new BaseRoute() {
-			@Override
-			public void handle() throws IOException {
-				response.send(200);
-			}
-
-			@Override
-			public boolean isMatch(Request request) {
-				super.isMatch(request);
-				return request.getMethod().equals("POST")
-						&& request.getUrl().equals("/form");
-			}
-		});
-
-		routes.add(new BaseRoute() {
-			@Override
-			public void handle() throws IOException {
-				response.send(200);
-			}
-
-			@Override
-			public boolean isMatch(Request request) {
-				super.isMatch(request);
-				return request.getMethod().equals("PUT")
-						&& request.getUrl().equals("/form");
-			}
-		});
-
+        routes.add(new FormRoute());
         routes.add(new RedirectRoute());
         routes.add(new AuthenticateRoute());
         routes.add(new DirectoryRoute());
