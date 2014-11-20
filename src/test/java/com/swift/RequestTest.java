@@ -163,17 +163,6 @@ public class RequestTest {
                         + "Some body stuff\r\n"
         );
         FakeRequest request = new FakeRequest(socket);
-
-//        BufferedReader in = new BufferedReader(new InputStreamReader(getInputStream()));
-//        String line;
-//        int c;
-//        while((c = in.read()) != -1) {
-//            System.out.println((char)c);
-//        }
-//        while((line = in.readLine()) != null) {
-//            System.out.println(line);
-//        }
-
         assertEquals("Some body stuff", request.getBody());
     }
 

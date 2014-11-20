@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.io.*;
 import java.net.*;
+import java.nio.file.FileSystems;
 
 import org.junit.After;
 import org.junit.Before;
@@ -12,7 +13,8 @@ import org.junit.Test;
 public class TestServerShould {
 
 	int testPort = 5000;
-	String testDir = "/";
+	File testRootDirectory = new File(FileFinder.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+	String testDir = testRootDirectory.getParentFile().getParentFile().toString() + "/src/test/java/com/swift";
 	Server myServer;
 
     @Before

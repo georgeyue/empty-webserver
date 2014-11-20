@@ -37,6 +37,10 @@ public class FileFinder {
 	public void setFile(String fileName) {
 		this.theFile = fileName;
 	}
+	
+	public String getFile() {
+		return this.theFile;
+	}
 
 	public byte[] getFileContents() throws IOException {
 		Path pathToFile = this.getAbsoluteFilePath();
