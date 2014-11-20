@@ -26,4 +26,11 @@ public class StaticStorageTest {
         StaticStorage.clear();
         assertTrue(StaticStorage.get().isEmpty());
     }
+
+    @Test
+    public void testinstantiate() {
+        StaticStorage s = new StaticStorage();
+        assertNotNull(s);
+
+    }
 }
