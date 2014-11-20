@@ -153,9 +153,9 @@ public class Request {
                 requestLine = "";
             Server.sout(requestLine);
 
-            if (!getUrl().equals("/logs")) {
-                Server.logs.add(requestLine);
-            }
+//            if (!getUrl().equals("/logs")) {
+//                Server.logs.add(requestLine);
+//            }
 
             while(in.hasNextLine() && (line = in.nextLine()) != null && !line.isEmpty()) {
                 Server.sout(line);
@@ -166,6 +166,8 @@ public class Request {
             length = (cll == null ? 0 : Integer.parseInt(cll));
             if (length > 0) {
                 body = in.findWithinHorizon(".*", length);
+            } else {
+                body = "";
             }
             Server.sout("");
         } catch (IOException e) {

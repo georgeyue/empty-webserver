@@ -28,7 +28,6 @@ public class FormRouteTest {
         assertTrue(route.isMatch(request));
     }
 
-
     @Test
     public void storeStuffIntoStaticWithPostToForm() throws IOException {
         request.setMethod("POST");

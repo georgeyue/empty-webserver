@@ -11,7 +11,7 @@ public class StaticStorageTest {
     public void setup() {
         StaticStorage.clear();
     }
-    
+
     @Test
     public void testGetSet() throws Exception {
         StaticStorage.set("banan");

@@ -188,4 +188,32 @@ public class RequestTest {
         assertEquals( "Operators <, >, =, !=; +, -, *, &, @, #, $, [, ]: \"is that all\"?", qs.get("variable_1"));
         assertEquals( "stuff", qs.get("variable_2") );
     }
+
+    @Test
+    public void haveBodyWhenGiven() throws IOException {
+        String LS = System.getProperty("line.separator");
+        FakeSocket socket = new FakeSocket();
+        socket.setText("GET /apples HTTP/1.1" + LS
+                        + "Location: http://localhost" + LS
+                        + "Accept: */*" + LS
+                        + "Content-length: 15" + LS
+                        + LS
+                        + "Some body stuff\r\n"
+        );
+        FakeRequest request = new FakeRequest(socket);
+        assertEquals("Some body stuff", request.getBody());
+    }
+
+    @Test
+    public void haveEmptyBodyWhenNotGiven() throws IOException {
+        String LS = System.getProperty("line.separator");
+        FakeSocket socket = new FakeSocket();
+        socket.setText("GET /apples HTTP/1.1" + LS
+                        + "Location: http://localhost" + LS
+                        + "Accept: */*" + LS
+                        + "Content-length: 15\r\n"
+        );
+        FakeRequest request = new FakeRequest(socket);
+        assertEquals("", request.getBody());
+    }
 }

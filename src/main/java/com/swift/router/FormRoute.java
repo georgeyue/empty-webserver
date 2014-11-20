@@ -9,8 +9,13 @@ public class FormRoute extends BaseRoute {
     @Override
     public void handle() throws IOException {
 
-        if (request.getMethod().equals("POST")) {
-            StaticStorage.set(request.getBody());
+        String s = request.getMethod();
+        String b = request.getBody();
+
+        if (s.equals("POST") || s.equals("PUT")) {
+            StaticStorage.set(b);
+        } else {
+            response.setResponseBody(StaticStorage.get());
         }
         response.send(200);
     }
