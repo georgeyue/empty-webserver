@@ -58,7 +58,7 @@ public class Response {
             	resLine ="HTTP/1.1 401 Error";
             	break;
             case 302:
-                out.println("HTTP/1.1 302 Found");
+                resLine = "HTTP/1.1 302 Found";
                 break;
             case 200:
             	resLine ="HTTP/1.1 200 OK";

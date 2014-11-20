@@ -1,4 +1,4 @@
-package com.swift.route;
+package com.swift.router;
 
 import com.swift.Request;
 import com.swift.router.BaseRoute;
@@ -9,9 +9,11 @@ import java.io.IOException;
 public class RedirectRoute extends BaseRoute {
     @Override
     public void handle() throws IOException {
-        response.setStatusCode(302);
-        response.sendHeader("Location", request.getHeader("host"));
-        response.send();
+        String host = request.getHeader("host");
+        host = host == null ? "/" : host + "/";
+
+        response.setHeader("Location", host);
+        response.send(302);
     }
 
     @Override
