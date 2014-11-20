@@ -1,6 +1,7 @@
 package com.swift.router;
 
 import com.swift.Request;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,5 +35,11 @@ public abstract class RoutesMatcher {
         return requestIsProccessed;
     }
 
-    public abstract void constructRoutes();
+    public void constructRoutes(){
+         routes.add(new RedirectRoute());
+         routes.add(new AuthenticateRoute());
+         routes.add(new DirectoryRoute());
+         routes.add(new StaticRoute());
+    }
+    
 }
