@@ -15,8 +15,6 @@ public class Request {
     private String protocol;
     protected String requestLine;
     private String[] tokenizedRequestLine;
-    private String username;
-    private String password;
     protected Map<String, String> queryParams;
     protected String rawQueryParams;
     private String pathname;
