@@ -1,12 +1,11 @@
 package com.swift.router;
 
 import com.swift.Request;
-import com.swift.Server;
+import com.swift.SwiftServer;
 
 import java.io.IOException;
 import java.util.Base64;
 import java.util.HashMap;
-import javax.xml.bind.DatatypeConverter;
 
 public class AuthenticateRoute extends BaseRoute {
 
@@ -20,11 +19,11 @@ public class AuthenticateRoute extends BaseRoute {
 
         if (creds != null && isAdminUser(creds.get("username"), creds.get("password"))) {
             StringBuilder sb = new StringBuilder();
-            for (String s : Server.logs) {
+            for (String s : SwiftServer.logs) {
                 sb.append(s + "\n");
             }
             response.setResponseBody(sb.toString());
-            Server.logs.clear();
+            SwiftServer.logs.clear();
             response.send(200);
         } else {
             response.setHeader("WWW-Authenticate", "Basic realm=\"Swifter's Lounge\"");

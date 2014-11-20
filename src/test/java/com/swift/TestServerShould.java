@@ -13,15 +13,15 @@ public class TestServerShould {
 
 	int testPort = 5000;
 	String testDir = "/";
-	Server myServer;
+	SwiftServer mySwiftServer;
 
     @Before
 	public void setUp() throws IOException {
-        myServer = new Server(testPort, testDir);
+        mySwiftServer = new SwiftServer(testPort, testDir);
         new Thread() {
             public void run() {
                 try {
-                    myServer.run();
+                    mySwiftServer.run();
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -31,19 +31,19 @@ public class TestServerShould {
 
 	@After
 	public void tearDown() throws IOException {
-        if (myServer != null)
-            myServer.stop();
+        if (mySwiftServer != null)
+            mySwiftServer.stop();
 	}
 
     @Test
     public void serverStarts() {
-        assertFalse(myServer.isStopped());
+        assertFalse(mySwiftServer.isStopped());
     }
 
     @Test
     public void serverStops() throws IOException {
-        myServer.stop();
-        assertTrue(myServer.isStopped());
+        mySwiftServer.stop();
+        assertTrue(mySwiftServer.isStopped());
     }
 
 	@Test
@@ -72,13 +72,13 @@ public class TestServerShould {
 
     @Test
 	public void shouldBeAbleToReturnASocket() throws Exception {
-		assertNotNull(myServer.getSocket());
+		assertNotNull(mySwiftServer.getSocket());
 	}
     
     @Test
     public void shouldSetDirectory() {
         String dir = "/a/b/c/d/e";
-        myServer.setDirectory(dir);
-        assertEquals(Server.getDirectory(), dir);
+        mySwiftServer.setDirectory(dir);
+        assertEquals(SwiftServer.getDirectory(), dir);
     }
 }

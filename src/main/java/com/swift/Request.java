@@ -151,10 +151,10 @@ public class Request {
             requestLine = in.nextLine();
             if (requestLine == null)
                 requestLine = "";
-            Server.sout(requestLine);
+            SwiftServer.sout(requestLine);
 
             while(in.hasNextLine() && (line = in.nextLine()) != null && !line.isEmpty()) {
-                Server.sout(line);
+                SwiftServer.sout(line);
                 parseRequestHeader(line);
             }
 
@@ -165,7 +165,7 @@ public class Request {
             } else {
                 body = "";
             }
-            Server.sout("");
+            SwiftServer.sout("");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

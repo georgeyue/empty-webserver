@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import com.swift.Request;
-import com.swift.Server;
+import com.swift.SwiftServer;
 
 
 public class DirectoryRoute extends BaseRoute {
@@ -26,7 +26,7 @@ public class DirectoryRoute extends BaseRoute {
 	
     public String directoryListing() {
     	String directoryList = "<html><head><title>Directory</title></head><body>";
-    	Path directory = FileSystems.getDefault().getPath(Server.getDirectory());
+    	Path directory = FileSystems.getDefault().getPath(SwiftServer.getDirectory());
     	try {
 			DirectoryStream<Path> stream = Files.newDirectoryStream(directory);
 			for(Path file : stream) {
