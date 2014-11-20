@@ -1,6 +1,8 @@
 package com.swift.router;
 
 import com.swift.FakeRequest;
+import com.swift.storage.StaticStorage;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -8,13 +10,33 @@ import java.io.IOException;
 import static org.junit.Assert.*;
 
 public class FormRouteTest {
+    FakeRequest request;
+    FormRoute route;
+
+    @Before
+    public void setup() throws IOException {
+        request = new FakeRequest();
+        route = new FormRoute();
+
+    }
     @Test
-    public void matchRequest() throws IOException {
-        FakeRequest request = new FakeRequest();
-        request.setRequestLine("GET /form, HTTP");
+    public void matchRequest() {
+        request.setRequestLine("GET /form HTTP");
         request.setUrl("/form");
 
-        FormRoute route = new FormRoute();
         assertTrue(route.isMatch(request));
+    }
+
+
+    @Test
+    public void storeStuffIntoStaticWithPostToForm() throws IOException {
+        request.setMethod("POST");
+        request.setUrl("/form");
+        request.setBody("some data");
+
+        route.isMatch(request);
+        route.handle();
+
+        assertEquals("some data", StaticStorage.get());
     }
 }

@@ -19,4 +19,12 @@ public class FakeRequest extends Request {
     public void setUrl(String url) {
         super.setUrl(url);
     }
+
+    public void setMethod(String method) {
+        this.method = method;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
 }

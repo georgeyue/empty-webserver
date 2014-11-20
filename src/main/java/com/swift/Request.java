@@ -19,7 +19,7 @@ public class Request {
     protected String rawQueryParams;
     private String pathname;
     private Map<String, String> header;
-    private String body;
+    protected String body;
 
     public void setUrl(String url) {
         this.url = url;
