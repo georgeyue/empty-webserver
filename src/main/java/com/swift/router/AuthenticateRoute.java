@@ -1,6 +1,8 @@
 package com.swift.router;
 
 import com.swift.Request;
+import com.swift.Server;
+
 import java.io.IOException;
 import java.util.Base64;
 import java.util.HashMap;
@@ -17,6 +19,12 @@ public class AuthenticateRoute extends BaseRoute {
         HashMap<String, String> creds = parseCredentials(request);
 
         if (creds != null && isAdminUser(creds.get("username"), creds.get("password"))) {
+            StringBuilder sb = new StringBuilder();
+            for (String s : Server.logs) {
+                sb.append(s + "\n");
+            }
+            response.setResponseBody(sb.toString());
+            Server.logs.clear();
             response.send(200);
         } else {
             response.setHeader("WWW-Authenticate", "Basic realm=\"Swifter's Lounge\"");

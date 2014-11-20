@@ -4,6 +4,7 @@ import com.swift.router.*;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class Server {
 
@@ -12,6 +13,7 @@ public class Server {
     private boolean stopped = false;
     private static String directory = "";
     private static boolean debug = false;
+    public static ArrayList<String> logs = new ArrayList<String>();
 
     public Server(int portNumber, String directoryToUse) throws IOException {
         serverSocket = new httpServerSocket(portNumber);
