@@ -76,6 +76,7 @@ public class Response {
     }
 
     public void setNotFoundHeader() throws IOException {
+    	set404BodyContents();
         sendResponseLine(404);
     }
 
@@ -180,4 +181,14 @@ public class Response {
 	public int[] getContentRange() {
 		return this.contentRange;
 	}
+	
+    public void set404BodyContents() throws IOException {
+    	FileFinder finder = new FileFinder();
+    	finder.setRootDirectory(Server.getDirectory());
+    	finder.setFile("404.html");
+    	
+    	if(finder.exists()) {
+    		setResponseBodyBytes(finder.getFileContents());
+    	}
+    }
 }

@@ -42,7 +42,6 @@ public class SwiftRoutesMatcher extends RoutesMatcher {
             }
         });
 
-
         routes.add(new BaseRoute() {
             @Override
             public void handle() throws IOException {
