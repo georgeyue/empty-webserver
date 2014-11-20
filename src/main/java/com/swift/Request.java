@@ -153,10 +153,6 @@ public class Request {
                 requestLine = "";
             Server.sout(requestLine);
 
-//            if (!getUrl().equals("/logs")) {
-//                Server.logs.add(requestLine);
-//            }
-
             while(in.hasNextLine() && (line = in.nextLine()) != null && !line.isEmpty()) {
                 Server.sout(line);
                 parseRequestHeader(line);

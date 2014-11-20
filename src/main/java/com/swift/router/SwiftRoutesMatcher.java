@@ -2,6 +2,7 @@ package com.swift.router;
 
 import com.swift.Request;
 import com.swift.Response;
+import com.swift.Server;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,6 +12,21 @@ public class SwiftRoutesMatcher extends RoutesMatcher {
 
     @Override
     public void constructRoutes() {
+        routes.add(new BaseRoute() {
+            @Override
+            public void handle() throws IOException {
+
+            }
+
+            @Override
+            public boolean isMatch(Request request) {
+                if (!request.getUrl().equals("/logs")) {
+                    Server.logs.add(request.getRequestLine());
+                }
+                return false;
+            }
+        });
+
         routes.add(new BaseRoute() {
             @Override
             public void handle() throws IOException {

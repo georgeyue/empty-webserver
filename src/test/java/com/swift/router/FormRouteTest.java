@@ -39,4 +39,16 @@ public class FormRouteTest {
 
         assertEquals("some data", StaticStorage.get());
     }
+
+    @Test
+    public void clearStoreWhenDelete() throws IOException {
+        request.setMethod("DELETE");
+        request.setUrl("/form");
+        request.setBody("");
+
+        route.isMatch(request);
+        route.handle();
+
+        assertEquals("", StaticStorage.get());
+    }
 }

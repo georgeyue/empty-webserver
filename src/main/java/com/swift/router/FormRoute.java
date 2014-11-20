@@ -12,8 +12,10 @@ public class FormRoute extends BaseRoute {
         String s = request.getMethod();
         String b = request.getBody();
 
-        if (s.equals("POST") || s.equals("PUT")) {
+        if (s.equals("POST") || s.equals("PUT"))
             StaticStorage.set(b);
+        if (s.equals("DELETE")) {
+            StaticStorage.clear();
         } else {
             response.setResponseBody(StaticStorage.get());
         }
