@@ -95,6 +95,7 @@ public class AuthenticateRouteTest {
         route.handle();
 
         assertEquals(401, request.getResponse().getStatusCode());
+        assertEquals("Basic realm=\"Swifter's Lounge\"", request.getResponse().getHeader("WWW-Authenticate"));
     }
 
     @Test

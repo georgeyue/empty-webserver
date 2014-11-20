@@ -16,13 +16,10 @@ public class AuthenticateRoute extends BaseRoute {
 
         HashMap<String, String> creds = parseCredentials(request);
 
-        if (creds == null) {
-            response.setResponseBody("Authentication required");
-            response.send(401);
-        } else if (isAdminUser(creds.get("username"), creds.get("password"))) {
-
+        if (creds != null && isAdminUser(creds.get("username"), creds.get("password"))) {
             response.send(200);
         } else {
+            response.setHeader("WWW-Authenticate", "Basic realm=\"Swifter's Lounge\"");
             response.setResponseBody("Authentication required");
             response.send(401);
         }

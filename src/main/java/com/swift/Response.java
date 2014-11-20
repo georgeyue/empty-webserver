@@ -6,6 +6,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Hashtable;
 
 public class Response {
     private Socket socket;
@@ -14,6 +15,7 @@ public class Response {
 	private String responseBody;
 	private int contentLength;
     private PrintWriter out;
+    private Header header;
     
     private byte[] responseBodyBytes;
     private OutputStream os;
@@ -21,6 +23,7 @@ public class Response {
     private boolean responseLineSent = false;
 
     public Response(Socket socket) throws IOException {
+        header = new Header();
         this.socket = socket;
         os = socket.getOutputStream();
         out = new PrintWriter(
@@ -81,10 +84,14 @@ public class Response {
     public void send() throws IOException {
         if (!responseLineSent)
             sendResponseLine(222);
+
         if(getContentType() != null)
-            out.println("Content-Type: " + getContentType());
+            setHeader("Content-Type", getContentType());
         if(getContentLength() > 0)
-        	out.println("Content-Length: " + getContentLength());
+            setHeader("Content-Length", Integer.toString(getContentLength()));
+
+        header.writeTo(out);
+
         if(getResponseBody() != null)
         	out.print(String.format("%n") + getResponseBody());
         out.flush();
@@ -149,5 +156,11 @@ public class Response {
         out.flush();
     }
 
+    public String getHeader(String key) {
+        return header.get(key);
+    }
 
+    public void setHeader(String key, String value) {
+        header.put(key, value);
+    }
 }

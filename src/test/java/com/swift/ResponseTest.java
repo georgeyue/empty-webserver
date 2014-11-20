@@ -42,7 +42,7 @@ public class ResponseTest {
         response.setContentType("text/directory");
         response.sendResponseLine(200);
         response.send();
-        assertEquals(String.format("HTTP/1.1 200 OK%nContent-Type: text/directory%n"), socket.getText());
+        assertEquals(String.format("HTTP/1.1 200 OK%nContent-Type: text/directory\r\n"), socket.getText());
 	}
     
     @Test
@@ -54,7 +54,7 @@ public class ResponseTest {
         response.sendResponseLine(200);
         response.send();
 
-        assertEquals(String.format("HTTP/1.1 200 OK%nContent-Type: text/directory%n%nthis is my body"), socket.getText());
+        assertEquals(String.format("HTTP/1.1 200 OK%nContent-Type: text/directory\r\n%nthis is my body"), socket.getText());
 	}
     
     @Test
@@ -65,7 +65,7 @@ public class ResponseTest {
         response.sendResponseLine(200);
         response.send();
 
-        assertEquals(String.format("HTTP/1.1 200 OK%nContent-Length: 15%n"), socket.getText());
+        assertEquals(String.format("HTTP/1.1 200 OK%nContent-Length: 15\r\n"), socket.getText());
 	}
 
     @Test
@@ -85,6 +85,26 @@ public class ResponseTest {
         response.send();
 
         assertEquals(String.format("HTTP/1.1 200 OK%n"), socket.getText());
+    }
+
+    @Test
+    public void shouldSetHeaderViaMEthods() throws IOException {
+        FakeSocket socket = new FakeSocket();
+        Response response = new Response(socket);
+        response.setHeader("x-banana", "some-name");
+
+        assertEquals("some-name", response.getHeader("x-banana"));
+    }
+
+    @Test
+    public void shouldIncludeSetHeaderInRespose() throws IOException {
+        FakeSocket socket = new FakeSocket();
+        Response response = new Response(socket);
+        response.setHeader("Allowed", "GET,HEAD");
+        response.send();
+
+        // TODO seriously got to fix all the line seps per spec, use CRLF
+        assertEquals(String.format("HTTP/1.1 200 OK%nAllowed: GET,HEAD\r\n"), socket.getText());
     }
 
 }
