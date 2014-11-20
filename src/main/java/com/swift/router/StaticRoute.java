@@ -3,7 +3,7 @@ package com.swift.router;
 import java.io.IOException;
 import com.swift.FileFinder;
 import com.swift.Request;
-import com.swift.Server;
+import com.swift.SwiftServer;
 
 public class StaticRoute extends BaseRoute {
     private String urlRegex;
@@ -17,7 +17,7 @@ public class StaticRoute extends BaseRoute {
     	FileFinder finder = new FileFinder();
     	String[] urlParts = request.getUrl().split("/");
 
-    	finder.setRootDirectory(Server.getDirectory());
+    	finder.setRootDirectory(SwiftServer.getDirectory());
     	finder.setFile(urlParts[urlParts.length-1]);
     	if(finder.exists()) {
     		response.setContentType(finder.getMimeType());

@@ -18,7 +18,7 @@ public class RequestHandler {
 
     public RequestHandler(Request request, RoutesMatcher routes) {
         this.request = request;
-        this.rootDirectory = Server.getDirectory();
+        this.rootDirectory = SwiftServer.getDirectory();
         this.routes = routes;
     }
 

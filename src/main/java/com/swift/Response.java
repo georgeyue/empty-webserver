@@ -71,7 +71,7 @@ public class Response {
               
         }
         out.println(resLine);
-        Server.sout(resLine);
+        SwiftServer.sout(resLine);
         out.flush();
     }
 
@@ -103,7 +103,7 @@ public class Response {
         if(getResponseBody() != null)
         	out.print(String.format("%n") + getResponseBody());
         out.flush();
-        Server.sout("");
+        SwiftServer.sout("");
         socket.close();
     }
 
@@ -184,7 +184,7 @@ public class Response {
 	
     public void set404BodyContents() throws IOException {
     	FileFinder finder = new FileFinder();
-    	finder.setRootDirectory(Server.getDirectory());
+    	finder.setRootDirectory(SwiftServer.getDirectory());
     	finder.setFile("404.html");
     	
     	if(finder.exists()) {

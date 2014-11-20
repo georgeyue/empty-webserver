@@ -1,11 +1,9 @@
 package com.swift.router;
 
 import com.swift.Request;
-import com.swift.Response;
-import com.swift.Server;
+import com.swift.SwiftServer;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Map;
 
 public class SwiftRoutesMatcher extends RoutesMatcher {
@@ -21,7 +19,7 @@ public class SwiftRoutesMatcher extends RoutesMatcher {
             @Override
             public boolean isMatch(Request request) {
                 if (!request.getUrl().equals("/logs")) {
-                    Server.logs.add(request.getRequestLine());
+                    SwiftServer.logs.add(request.getRequestLine());
                 }
                 return false;
             }
