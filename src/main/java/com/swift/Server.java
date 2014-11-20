@@ -11,6 +11,7 @@ public class Server {
     private Socket socket;
     private boolean stopped = false;
     private static String directory = "";
+    private static boolean debug = true;
 
     public Server(int portNumber, String directoryToUse) throws IOException {
         serverSocket = new httpServerSocket(portNumber);
@@ -25,6 +26,11 @@ public class Server {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static void sout(Object o) {
+        if (debug)
+            System.out.println(o);
     }
 
 	public void stop() throws IOException {

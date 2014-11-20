@@ -42,24 +42,27 @@ public class Response {
         responseLineSent = true;
         statusCode = i;
 
+        String resLine;
+
         switch(statusCode) {
             case 404:
-                out.println("HTTP/1.1 404 Not Found");
+                resLine = "HTTP/1.1 404 Not Found";
                 break;
             case 405:
-            	out.println("HTTP/1.1 405 Method Not Allowed");
+            	resLine = "HTTP/1.1 405 Method Not Allowed";
             	break;
             case 401:
-            	out.println("HTTP/1.1 401 Error");
+            	resLine ="HTTP/1.1 401 Error";
             	break;
             case 200:
-            	out.println("HTTP/1.1 200 OK");
+            	resLine ="HTTP/1.1 200 OK";
             	break;
             default:
-                out.println("HTTP/1.1 200 OK");
+                resLine ="HTTP/1.1 200 OK";
               
         }
-
+        out.println(resLine);
+        Server.sout(resLine);
         out.flush();
     }
 
@@ -85,6 +88,7 @@ public class Response {
         if(getResponseBody() != null)
         	out.print(String.format("%n") + getResponseBody());
         out.flush();
+        Server.sout("");
         socket.close();
     }
 

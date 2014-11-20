@@ -151,8 +151,10 @@ public class Request {
             requestLine = in.nextLine();
             if (requestLine == null)
                 requestLine = "";
+            Server.sout(requestLine);
 
             while(in.hasNextLine() && (line = in.nextLine()) != null && !line.isEmpty()) {
+                Server.sout(line);
                 parseRequestHeader(line);
             }
 
@@ -161,6 +163,7 @@ public class Request {
             if (length > 0) {
                 body = in.findWithinHorizon(".*", length);
             }
+            Server.sout("");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
