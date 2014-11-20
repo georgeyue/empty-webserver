@@ -1,7 +1,6 @@
 package com.swift.router;
 
 import java.io.IOException;
-
 import com.swift.FileFinder;
 import com.swift.Request;
 import com.swift.Server;
@@ -27,6 +26,8 @@ public class StaticRoute extends BaseRoute {
     		response.sendBinary(200);
     	}
     	else {
+    		response.setContentType("text/html");
+    		response.setNotFoundHeader();
     		response.send(404);
     	}
     }
@@ -35,4 +36,5 @@ public class StaticRoute extends BaseRoute {
         super.isMatch(request);
         return request.getUrl().matches(urlRegex);
     }
+    
 }
