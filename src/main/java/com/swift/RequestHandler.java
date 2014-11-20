@@ -3,6 +3,7 @@ package com.swift;
 import com.swift.router.RoutesMatcher;
 
 import java.io.IOException;
+import java.net.Socket;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -16,8 +17,8 @@ public class RequestHandler {
 //    TODO let's add routes to define behaviour based on routes
 //    private Routes routes;
 
-    public RequestHandler(Request request, RoutesMatcher routes) {
-        this.request = request;
+    public RequestHandler(Socket socket, RoutesMatcher routes) throws IOException {
+        this.request = new Request(socket);
         this.rootDirectory = SwiftServer.getDirectory();
         this.routes = routes;
     }

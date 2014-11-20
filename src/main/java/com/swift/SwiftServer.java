@@ -43,12 +43,11 @@ public class SwiftServer {
 
         while(!isStopped() && !serverSocket.isClosed()) {
             socket = serverSocket.accept();
-            Request request = new Request(socket);
 
             RoutesMatcher routes = new SwiftRoutesMatcher();
             routes.constructRoutes();
 
-            RequestHandler handler = new RequestHandler(request, routes);
+            RequestHandler handler = new RequestHandler(socket, routes);
             handler.process();
         }
     }
