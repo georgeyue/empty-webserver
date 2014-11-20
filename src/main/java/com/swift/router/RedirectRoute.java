@@ -10,7 +10,15 @@ public class RedirectRoute extends BaseRoute {
     @Override
     public void handle() throws IOException {
         String host = request.getHeader("host");
-        host = host == null ? "/" : host + "/";
+
+        if (host == null) {
+            host = "/";
+        } else {
+            if (!host.matches("^http:\\/\\/.*") ) {
+                host = "http://" + host;
+            }
+            host = host + "/";
+        }
 
         response.setHeader("Location", host);
         response.send(302);
