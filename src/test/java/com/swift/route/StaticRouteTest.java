@@ -39,7 +39,7 @@ public class StaticRouteTest {
     
     @Test
 	public void handlesFileRequestIfMissing() throws Exception {
-		request.setUrl("/foobar");
+		request.setUrl("/foobaz");
 		route.isMatch(request);
 		route.handle();
 		assertTrue(socket.getText().contains(String.format("HTTP/1.1 404 Not Found")));
